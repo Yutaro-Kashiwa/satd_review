@@ -5,10 +5,11 @@ import backoff
 import requests
 from pygerrit2 import GerritRestAPI, HTTPBasicAuth, Anonymous
 
+from exe import ENV
 from modules.others.configure import read_json
 from modules.others.my_exceptions import DetailFileNotFoundError, QueryFileNotFoundError, DiffFileNotFoundError, \
     DiffLineFileNotFoundError
-from modules.others.url import url_decode, url_encode
+from modules.others.url import url_encode
 from modules.review.GerritDao import GerritDao
 
 
@@ -35,7 +36,7 @@ class GerritController:
         return self._get_run_info()
 
     def set_target(self, no):
-        self.current_review_id = no
+        self.current_review_id = no-1
 
 
 class QueryBase:
@@ -127,9 +128,9 @@ import json
 
 
 class GerritControllerViaLocal(GerritController):
-    def __init__(self, project, data_dir, max_no=None):
+    def __init__(self, project, max_no=None):
         super(GerritControllerViaLocal, self).__init__(project, max_no)
-        self.data_dir = data_dir
+        self.data_dir = ENV['data_dir']
 
     def _get_run_info(self):
         return QueryViaLocal(self.project, self.current_review_id, self.data_dir)

@@ -6,15 +6,14 @@ import re
 
 import pexpect
 
+from exe import ENV
 from modules.source.comments import extract_commentout
 
 
 class SatdDetector:
-    # TODO: do not hard cording
-    jar = "/Users/yutarokashiwa/Documents/200_Development/220_PyCharm/nishikawa_td_src/src/satd_detector.jar"
-
     def __init__(self):
-        self.analyzer = pexpect.spawn(f'java -jar {self.jar} test', encoding='utf-8')
+        jarfile = ENV['home_dir'] / "src/satd_detector.jar"
+        self.analyzer = pexpect.spawn(f'java -jar {jarfile} test', encoding='utf-8')
         self.analyzer.expect('>')
 
     def detect(self, diffs, file_type):
