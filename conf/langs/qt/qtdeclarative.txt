@@ -1,0 +1,1 @@
+qt qtdeclarative cpp qml js

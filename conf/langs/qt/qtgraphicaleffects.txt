@@ -1,0 +1,1 @@
+qt qtgraphicaleffects qml cpp frag vert

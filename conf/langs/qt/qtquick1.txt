@@ -1,0 +1,1 @@
+qt qtquick1 cpp qml g

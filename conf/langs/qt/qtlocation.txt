@@ -1,0 +1,1 @@
+qt qtlocation cpp qml pro

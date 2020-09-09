@@ -1,0 +1,1 @@
+qt qtxmlpatterns cpp pro sh

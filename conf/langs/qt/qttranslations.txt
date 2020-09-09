@@ -1,0 +1,1 @@
+qt qttranslations pl pro xq
