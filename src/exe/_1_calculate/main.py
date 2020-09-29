@@ -8,6 +8,7 @@ from modules.rq.common import mark_satd, count_satd
 
 if __name__ == '__main__':
     gc = GerritControllerViaLocal(PROJECT, 2000)
+    gc.set_target(401)
     # gc.set_target(7006)
     detector = SATDReviewExplore(gc)
     result, error = detector.detect()

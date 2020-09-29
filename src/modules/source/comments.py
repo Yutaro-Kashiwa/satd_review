@@ -86,6 +86,7 @@ def extract_commentout(lines, is_diffs, file_type):
                 merged_comment += ' ' + line
             continue
 
+        # TODO: pythonの場合，#を使いながら複数行コメントをする
         flag_in_single_comment_out, comment = is_single_comment_out(line)
         if flag_in_single_comment_out:
             info['start_line'] = line_no

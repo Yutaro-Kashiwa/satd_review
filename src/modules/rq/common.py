@@ -1,17 +1,20 @@
 import pandas as pd
 
 
-def check_satd_action(changed_files):
-    a = False#add
-    d = False#delete
+def is_deleted_added(changed_files):
+    added = False#add
+    deleted = False#delete
     for file in changed_files:# TODO: 違うファイルにまたがっていた場合
         a_satd_comments = _get_satd_comments(file['a_comments'])
         b_satd_comments = _get_satd_comments(file['b_comments'])
+        print(a_satd_comments)
+        #TODO: 左にあって，右になかったらDelete
+        #TODO: 右にあって，左になかったらDelete
         if len(a_satd_comments)>0:
-            a = True
+            deleted = True
         if len(b_satd_comments)>0:
-            d = True
-    return a, d
+            added = True
+    return added, deleted
 
 def _get_satd_comments(comments):
     out = []
@@ -21,29 +24,72 @@ def _get_satd_comments(comments):
     return out
 
 
+def get_unique(a_satd_comments, a_satd, revision):
+    for comment in a_satd_comments:
+        satd = comment['comment']
+        if not (satd in a_satd.keys()):
+            a_satd[satd] = int(revision['revision'])
+        else:
+            print("not unique", int(revision['revision']), satd)
+    return a_satd
+
+
+def find_satd(d):
+    exist_target_file = False
+    # FIXME: 同じSATDの内容が複数あった場合
+    a_satd = {}
+    b_satd = {}
+    for revision in d.results:
+        if len(revision['changed_files']) > 0:
+            exist_target_file = True
+            for file in revision['changed_files']:# TODO: 違うファイルにまたがっていた場合
+                a_satd_comments = _get_satd_comments(file['a_comments'])
+                b_satd_comments = _get_satd_comments(file['b_comments'])
+                a_satd = get_unique(a_satd_comments, a_satd, revision)
+                b_satd = get_unique(b_satd_comments, b_satd, revision)
+    return exist_target_file, a_satd, b_satd
+
+
+def find(d):
+    added_satd = None
+    deleted_satd = None
+    for revision in d.results:
+        if len(revision['changed_files']) > 0:
+            a, d = is_deleted_added(revision['changed_files'])
+            # TODO: 最初からある状態か？
+            if a and (added_satd is None):
+                added_satd = int(revision['revision'])
+            if d and (deleted_satd is None):
+                deleted_satd = int(revision['revision'])
+    return added_satd, deleted_satd
+
+
 def mark_satd(df: pd.DataFrame):
     arr_exist_target_file = []
     arr_add_satd = []
     arr_delete_satd = []
+    arr_add_and_delete_satd = []
     for _, d in df.iterrows():
-        exist_target_file = False
-        added_satd = None
-        deleted_satd = None
-        for revision in d.results:
-            if len(revision['changed_files']) > 0:
-                exist_target_file = True
-                a, d = check_satd_action(revision['changed_files'])
-                #TODO: 最初からある状態か？
-                if a and (added_satd is None):
-                    added_satd = int(revision['revision'])
-                if d and (deleted_satd is None):
-                    deleted_satd = int(revision['revision'])
+        exist_target_file, a_satd, b_satd = find_satd(d)
+        # added_satd, deleted_satd = find(d)
         arr_exist_target_file.append(exist_target_file)
-        arr_add_satd.append(added_satd)
-        arr_delete_satd.append(deleted_satd)
+        arr_add_satd.append(b_satd)
+        arr_delete_satd.append(a_satd)
+        #TODO: 修正されたときは対象外
+        ab_satd = {}
+        for a in a_satd.keys():
+            if a in b_satd.keys():
+                if not b_satd[a] == a_satd[a]:# if not, Modify pattern?
+                    ab_satd[a] = str(b_satd[a]) + '-' + str(a_satd[a])
+                    print("add->delete", ab_satd[a])
+                else:
+                    print("modify?", a_satd[a])
+                print(d)
+        arr_add_and_delete_satd.append(ab_satd)
     df['exist_target_file'] = arr_exist_target_file
     df['added_satd'] = arr_add_satd
     df['deleted_satd'] = arr_delete_satd
+    df['added_and_deleted_satd'] = arr_add_and_delete_satd
     return df
 
 
@@ -52,3 +98,8 @@ def count_satd(df, clmn):
     wth_out = df[clmn==False]
     return len(wth), len(wth_out)
 
+
+
+def filter_out_self_review():  # list = そのリビジョンのコメント，list2 = その前までのリビジョンのコメント
+    #TODO セルフレビュー除去．どこにある？
+    return None
