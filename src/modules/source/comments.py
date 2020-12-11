@@ -50,6 +50,17 @@ def check_javadoc(line, flag_in_javadoc):
     return flag_in_javadoc, should_continue
 
 #コメントアウトだけ取り出す
+def append_info(info, line_no, comment):
+    if len(info) > 0:
+        info['end_line'] = line_no
+        info['comment'] = info['comment'] + ' ' + comment
+    else:
+        info['start_line'] = line_no
+        info['end_line'] = line_no
+        info['comment'] = comment
+    return info
+
+
 def extract_commentout(lines, is_diffs, file_type):
     is_single_comment_out = get_is_single_comment_out(file_type)
     is_start_multi_comment_out, is_end_multi_comment_out = get_is_multi_comment_out(file_type)
@@ -89,14 +100,14 @@ def extract_commentout(lines, is_diffs, file_type):
         # TODO: pythonの場合，#を使いながら複数行コメントをする
         flag_in_single_comment_out, comment = is_single_comment_out(line)
         if flag_in_single_comment_out:
-            info['start_line'] = line_no
-            info['end_line'] = line_no
-            info['comment'] = comment
+            info = append_info(info, line_no, comment)
+        elif len(info) > 0:
             commentout_info.append(info)
             info = {}
         else:
-            # program should pass this line
             pass
+    if len(info) > 0:#if one line change in "a" or "b"
+        commentout_info.append(info)
     assert not flag_in_multi_comment_out
     assert not flag_in_javadoc
     return commentout_info
@@ -104,7 +115,7 @@ def extract_commentout(lines, is_diffs, file_type):
 
 ##########################################
 def _extract_comment_after(symbol, line):
-    pattern = rf".*({symbol}.*)"
+    pattern = rf".*?({symbol}.*)"#?で最左一致にしている
     comment = re.match(pattern, line)
     if comment:
         return True, comment.group(1)

@@ -16,15 +16,16 @@ from modules.source.utils import get_file_type
 
 
 class SATDReviewExplore():
-    def __init__(self, gc):
+    def __init__(self, gc, workers=10):
         self.gc = gc
+        self.workers = workers
 
     def detect(self):
         error = {"program error": [], "know unknown problem": [], "anonymous file not found": [],
                  "query file not found": [], "detail file not found": [], "diff file not found": [], "diff line file not found": [],
-                 }
+                 "SATD detector is too busy": []}
         output = []
-        tpe = ThreadPoolExecutor(max_workers=50)
+        tpe = ThreadPoolExecutor(max_workers=self.workers)
         while self.gc.next():
             query = self.gc.get_run_info()
             tpe.submit(process, query, output, error)

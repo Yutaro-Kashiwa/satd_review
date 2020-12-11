@@ -1,5 +1,7 @@
 from json.decoder import JSONDecodeError
 
+import pexpect
+
 from modules.others.my_exceptions import KnowUnknownJsonError, QueryFileNotFoundError, DetailFileNotFoundError, \
     DiffLineFileNotFoundError, DiffFileNotFoundError
 from modules.review.Review import Review
@@ -28,7 +30,13 @@ def process(query, output, error):
         error["diff line file not found"].append(query.review_id)
     except FileNotFoundError:
         error["anonymous file not found"].append(query.review_id)
-    except Exception:
+    except pexpect.exceptions.EOF:
+        error["SATD detector is too busy"].append(query.review_id)#reduce workers
+    except pexpect.exceptions.TIMEOUT:
+        error["SATD detector is too busy"].append(query.review_id)#reduce workers
+    except Exception as e:
+        print("!!!!!!")
+        print(e)
         error["program error"].append(query.review_id)
 
 def _process_by_review(query, review):

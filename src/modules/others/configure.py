@@ -14,6 +14,8 @@ def get_languages(project, sub_project):
 
 def read_json(file):
     print("open->", file)
-    json_load = json.load(open(file, 'r'))
+    f = open(file, 'r')
+    json_load = json.load(f)
+    f.close()
     return json_load
 

@@ -69,26 +69,30 @@ def mark_satd(df: pd.DataFrame):
     arr_add_satd = []
     arr_delete_satd = []
     arr_add_and_delete_satd = []
+    arr_is_added_satd = []
+    arr_is_deleted_satd = []
     for _, d in df.iterrows():
         exist_target_file, a_satd, b_satd = find_satd(d)
         # added_satd, deleted_satd = find(d)
         arr_exist_target_file.append(exist_target_file)
         arr_add_satd.append(b_satd)
+        arr_is_added_satd.append(len(b_satd) > 0)
         arr_delete_satd.append(a_satd)
-        #TODO: 修正されたときは対象外
+        arr_is_deleted_satd.append(len(a_satd) > 0)
         ab_satd = {}
         for a in a_satd.keys():
             if a in b_satd.keys():
                 if not b_satd[a] == a_satd[a]:# if not, Modify pattern?
                     ab_satd[a] = str(b_satd[a]) + '-' + str(a_satd[a])
                     print("add->delete", ab_satd[a])
-                else:
+                else:#TODO: 修正されたとき(無理)
                     print("modify?", a_satd[a])
-                print(d)
         arr_add_and_delete_satd.append(ab_satd)
     df['exist_target_file'] = arr_exist_target_file
     df['added_satd'] = arr_add_satd
+    df['is_added_satd'] = arr_is_added_satd
     df['deleted_satd'] = arr_delete_satd
+    df['is_deleted_satd'] = arr_is_deleted_satd
     df['added_and_deleted_satd'] = arr_add_and_delete_satd
     return df
 

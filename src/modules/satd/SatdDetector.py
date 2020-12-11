@@ -55,9 +55,9 @@ class SatdDetector:
                         raise
         return a_script, a_diff, b_script, b_diff
 
-    def _append(self, lines, script, diff, param):
+    def _append(self, lines, script, diff, either):
         for line in lines:  # TODO:　もっとシンプルに
-            diff.append(param)
+            diff.append(either)
             script.append(line)
 
     def _satd_detect(self, script_lines):
@@ -68,7 +68,7 @@ class SatdDetector:
             try:
                 result = match.group(1)
                 if result == 'SATD':
-                    print("***************DETECTED************************")
+                    # print("***************DETECTED************************")
                     line['include_SATD'] = True
                 elif result == 'Not SATD':
                     line['include_SATD'] = False
