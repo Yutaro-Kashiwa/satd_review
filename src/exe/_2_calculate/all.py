@@ -1,6 +1,5 @@
 
-
-
+import pandas as pd
 
 def read_pkl():
     return pd.read_pickle("../_1_detect/df.pkl")
@@ -10,7 +9,6 @@ def read_pkl():
 
 
 if __name__ == '__main__':
-    import pandas as pd
     from exe._2_calculate.rq1 import rq1
     from exe._2_calculate.rq2 import rq2
     from exe._2_calculate.rq3 import rq3
