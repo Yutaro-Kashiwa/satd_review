@@ -36,7 +36,6 @@ def revisionTest(a, b):
 
 def rq1(df):
     print("**RQ1********************")
-    #print(df.added_satd.dtype)
     df_with = df[(df.is_added_satd == True) | (df.is_deleted_satd == True)]
     df_without = df[((df.is_added_satd == True) | (df.is_deleted_satd == True)) == False]
     df_with_accepted = df_with['is_accepted']
