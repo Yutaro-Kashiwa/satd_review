@@ -13,8 +13,11 @@ from modules.source.comments import extract_commentout
 class SatdDetector:
     def __init__(self):
         jarfile = ENV['home_dir'] / "src/satd_detector.jar"
-        self.analyzer = pexpect.spawn(f'java -jar {jarfile} test', encoding='utf-8')
+        self.analyzer = pexpect.spawn(f'java -Xms512m -Xmx8g -jar {jarfile} test', encoding='utf-8')
         self.analyzer.expect('>')
+
+    def close(self):
+        self.analyzer.close()
 
     def detect(self, diffs, file_type):
         a_SATD_comments, b_SATD_comments = self._process_by_file(diffs, file_type)

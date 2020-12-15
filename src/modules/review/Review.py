@@ -1,20 +1,31 @@
 from modules.others.configure import get_languages
-from modules.others.my_exceptions import KnowUnknownJsonError
+from modules.others.my_exceptions import KnowUnknownJsonError, NotTargetSubProjectException
 from modules.review.utils import remove_bots_message, extract_inline_comments_number
 
+def extract(x):
+    try:
+        return int(x['_revision_number'])
+    except Exception:
+        return 0
 
 class Review:
     def __init__(self, query, review_id, revision_info, review_info):
         self.query = query
-        if not "current_revision" in revision_info:
-            raise KnowUnknownJsonError
-        current_revision = revision_info["current_revision"]
-        self.total_revisions = revision_info["revisions"][current_revision]["_number"]  # その変更のパッチ総数．
-        self.review_id = review_id
         tmp = revision_info['project'].split("/")
         assert len(tmp) == 2
         self.project = tmp[0]
+        if not self.project == query.name:
+            raise NotTargetSubProjectException
         self.sub_project = tmp[1]
+
+        try:
+            self.total_revisions = max(map(lambda x: extract(x), review_info["messages"]))  # その変更のパッチ総数．
+        except FileNotFoundError:
+            raise NotTargetSubProjectException
+        except Exception:
+            raise
+        self.review_id = review_id
+
         self.target_languages = get_languages(self.project, self.sub_project)
         self.change_id = revision_info["change_id"]
         self.status = revision_info["status"]

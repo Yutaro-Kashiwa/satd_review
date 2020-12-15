@@ -4,7 +4,8 @@ from modules.review.GerritController import GerritControllerViaLocal
 from modules.rq.common import mark_satd
 import pandas as pd
 
-def exe(target):
+def exe(target, project):
+    PROJECT["name"] = project
     gc = GerritControllerViaLocal(PROJECT, target)
     gc.current_review_id = target - 1
     detector = SATDReviewExplore(gc)

@@ -13,3 +13,6 @@ class DiffFileNotFoundError(FileNotFoundError):
 class DiffLineFileNotFoundError(FileNotFoundError):
     pass
 
+class NotTargetSubProjectException(Exception):
+    pass
+
