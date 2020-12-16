@@ -59,7 +59,8 @@ def rq1(df):
     out_df.to_csv("statistics.csv")
 
     print("--Acceptance Rate-----------------")
-    a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), len(df_without_accepted), len(df_without) - len(df_without_accepted)
+    a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), \
+                 len(df_without_accepted), len(df_without) - len(df_without_accepted)
     accRateTest(a, b, c, d)
 
     print("--Revision-----------------")
