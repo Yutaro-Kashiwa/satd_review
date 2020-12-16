@@ -5,26 +5,26 @@ import math
 from exe._2_calculate.all import read_pkl
 from modules.utils import calc_rate
 
-def satdHaveCheck(x):
-    if (x.is_added_satd == True) or (x.is_deleted_satd == True):
-        return True
-    else:
-        return False
 
-def accRateTest(df):
+def accRateTest(a, b, c, d):
     # 検定：比率の差の検定（＝カイ二乗検定）
-    crosstab = pandas.crosstab(df['satd_have'], df['is_accepted'])
+    crosstab = pandas.DataFrame([[a, b], [c, d]])
     x2, p, dof, expected = scipy.stats.chi2_contingency(crosstab)
     print("p-value = " + str(p))
     # 効果量：SQRT(カイ二乗値/N)
     phi = math.sqrt(x2 / len(df))
     print("Effect size = " + str(phi))
+    accepted_header = ['--Acceptance Rate-----------------', '', '']
+    accepted_p = ['p-value', '', p]
+    accepted_eff = ['effect_size', '', phi]
+    out_df = pandas.DataFrame([accepted_header, accepted_p, accepted_eff])
+    out_df.to_csv("statistics.csv", mode='a', header=False)
 
 
 def revisionTest(a, b):
     # 検定：U検定
-    U, pval = scipy.stats.mannwhitneyu(a, b)
-    print("p-value = " + str(pval))
+    U, p = scipy.stats.mannwhitneyu(a, b)
+    print("p-value = " + str(p))
     # 効果量：Z-score / SQRT(N)
     # mannshitneyuではZ-scoreを出してくれないので手動で計算するしかないらしい
     E = (len(a) * len(b)) / 2  # 期待値
@@ -32,14 +32,19 @@ def revisionTest(a, b):
     Z = (U - E) / V  # Z値
     r = math.sqrt(Z ** 2 / (Z ** 2 + len(a) + len(b) - 1))  # r値
     print("Effect size = " + str(r))
+    revision_header = ['--Revision-----------------', '', '']
+    revision_p = ['p-value', '', p]
+    revision_eff = ['effect_size', '', r]
+    out_df = pandas.DataFrame([revision_header, revision_p, revision_eff])
+    out_df.to_csv("statistics.csv", mode='a', header=False)
 
 
 def rq1(df):
     print("**RQ1********************")
     df_with = df[(df.is_added_satd == True) | (df.is_deleted_satd == True)]
     df_without = df[((df.is_added_satd == True) | (df.is_deleted_satd == True)) == False]
-    df_with_accepted = df_with['is_accepted']
-    df_without_accepted = df_without['is_accepted']
+    df_with_accepted = df_with[df_with.is_accepted]
+    df_without_accepted = df_without[df_without.is_accepted]
     print("--Statistics-----------------")
     header = ['', "SATD", "non-SATD"]
     num = ['num', len(df_with), (len(df_without))]
@@ -54,11 +59,13 @@ def rq1(df):
     out_df.to_csv("statistics.csv")
 
     print("--Acceptance Rate-----------------")
-    df['satd_have'] = df.apply(lambda x:satdHaveCheck(x), axis=1)
-    accRateTest(df)
+    a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), len(df_without_accepted), len(df_without) - len(df_without_accepted)
+    accRateTest(a, b, c, d)
 
     print("--Revision-----------------")
     revisionTest(df_with.revisions, df_without.revisions)
+
+
 
 
 
