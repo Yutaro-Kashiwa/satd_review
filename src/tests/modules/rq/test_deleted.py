@@ -14,19 +14,30 @@ class TestAdded(TestCase):
 
     def test_detect_case_N001(self):
         target = 146
-        df = exe(target)
+        df = exe(target, "openstack")
         print(df.at[0, "is_deleted_satd"])
         assert df.at[0, "is_deleted_satd"] == False
 
     def test_detect_case_Y001(self):
         target = 156
-        df = exe(target)
+        df = exe(target, "openstack")
         print(df.at[0, "is_deleted_satd"])
         assert df.at[0, "is_deleted_satd"] == True
 
     def test_detect_case_Y002(self):
         target = 879
-        df = exe(target)
+        df = exe(target, "openstack")
         print(df.at[0, "is_deleted_satd"])
         assert df.at[0, "is_deleted_satd"] == True
 
+    def test_detect_case_Y003(self):# TODO: not tested yet
+        target = 1917
+        df = exe(target, "openstack")
+        print(df.at[0, "is_deleted_satd"])
+        assert df.at[0, "is_deleted_satd"] == True
+
+    def test_detect_case_Y004(self):# TODO: not tested yet
+        target = 2269
+        df = exe(target, "openstack")
+        print(df.at[0, "is_deleted_satd"])
+        assert df.at[0, "is_deleted_satd"] == True

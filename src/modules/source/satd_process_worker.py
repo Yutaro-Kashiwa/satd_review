@@ -3,7 +3,7 @@ from json.decoder import JSONDecodeError
 import pexpect
 
 from modules.others.my_exceptions import KnowUnknownJsonError, QueryFileNotFoundError, DetailFileNotFoundError, \
-    DiffLineFileNotFoundError, DiffFileNotFoundError
+    DiffLineFileNotFoundError, DiffFileNotFoundError, NotTargetSubProjectException
 from modules.review.Review import Review
 from modules.satd.SatdDetector import SatdDetector
 from modules.source.utils import get_file_type
@@ -18,6 +18,8 @@ def process(query, output, error):
         info = {"id": query.review_id, "results": results}
         info.update(review.get_info())
         output.append(info)
+    except NotTargetSubProjectException:
+        error["not target sub-project"].append(query.review_id)
     except KnowUnknownJsonError:
         error["know unknown problem"].append(query.review_id)
     except QueryFileNotFoundError:
@@ -35,18 +37,18 @@ def process(query, output, error):
     except pexpect.exceptions.TIMEOUT:
         error["SATD detector is too busy"].append(query.review_id)#reduce workers
     except Exception as e:
-        print("!!!!!!")
-        print(e)
+        print("Error:", e)
         error["program error"].append(query.review_id)
 
 def _process_by_review(query, review):
     revision = 1
     out = []
-    detector = SatdDetector()
     while revision <= review.total_revisions:  # 各パッチについてコメントとレビューの情報を取る
+        detector = SatdDetector()
         contents = _process_by_revision(query, detector, review, revision)
         out.append({"revision": revision, "changed_files": contents})
         revision += 1
+        detector.close()
     return out
 
 

@@ -150,10 +150,20 @@ class QueryViaLocal(QueryBase):
     def _get_query(self):  # raise FileNotFoundException
         # ファイル検索
         try:
-            js = read_json(self.path + self.query_file)[0]
-            return js
+            if self.name == "qt":
+                return read_json(self.path + self.query_file)
+            else:#openstack
+                return read_json(self.path + self.query_file)[0]
         except FileNotFoundError:
+            print("FileNotFoundError")
             raise QueryFileNotFoundError
+        except KeyError:
+            print("Check this method. You need to check if the file start by list or dict")
+            raise
+        except Exception as e:
+            print("Anonymous Error")
+            print(e.__class__)
+            raise
 
     def _get_detail(self):
         # ファイル検索

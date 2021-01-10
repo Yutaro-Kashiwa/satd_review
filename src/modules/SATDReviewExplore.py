@@ -21,7 +21,7 @@ class SATDReviewExplore():
         self.workers = workers
 
     def detect(self):
-        error = {"program error": [], "know unknown problem": [], "anonymous file not found": [],
+        error = {"not target sub-project": [], "program error": [], "know unknown problem": [], "anonymous file not found": [],
                  "query file not found": [], "detail file not found": [], "diff file not found": [], "diff line file not found": [],
                  "SATD detector is too busy": []}
         output = []
