@@ -1,0 +1,20 @@
+{
+  "id": "qt%2Fqtdeclarative~stable~I18cd4d7e0f6ee1011c29375218dc6a044b0d2cf2",
+  "project": "qt/qtdeclarative",
+  "branch": "stable",
+  "hashtags": [],
+  "change_id": "I18cd4d7e0f6ee1011c29375218dc6a044b0d2cf2",
+  "subject": "Consolidate context creation failure handling in Quick.",
+  "status": "MERGED",
+  "created": "2014-03-05 11:41:35.000000000",
+  "updated": "2014-03-13 14:20:14.000000000",
+  "insertions": 122,
+  "deletions": 49,
+  "unresolved_comment_count": 0,
+  "has_review_started": true,
+  "_number": 79973,
+  "owner": {
+    "_account_id": 1000014
+  },
+  "requirements": []
+}

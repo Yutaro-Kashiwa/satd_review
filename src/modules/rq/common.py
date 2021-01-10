@@ -8,8 +8,8 @@ def is_deleted_added(changed_files):
         a_satd_comments = _get_satd_comments(file['a_comments'])
         b_satd_comments = _get_satd_comments(file['b_comments'])
         print(a_satd_comments)
-        #TODO: 左にあって，右になかったらDelete
-        #TODO: 右にあって，左になかったらDelete
+        #左にあって，右になかったらDelete
+        #右にあって，左になかったらAdd
         if len(a_satd_comments)>0:
             deleted = True
         if len(b_satd_comments)>0:
@@ -84,9 +84,8 @@ def mark_satd(df: pd.DataFrame):
             if a in b_satd.keys():
                 if not b_satd[a] == a_satd[a]:# if not, Modify pattern?
                     ab_satd[a] = str(b_satd[a]) + '-' + str(a_satd[a])
-                    print("add->delete", ab_satd[a])
                 else:#TODO: 修正されたとき(無理)
-                    print("modify?", a_satd[a])
+                    pass
         arr_add_and_delete_satd.append(ab_satd)
     df['exist_target_file'] = arr_exist_target_file
     df['added_satd'] = arr_add_satd

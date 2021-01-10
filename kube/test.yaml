@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: os-satd1
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: td-worker
+        image: s141015/review_td:v1
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "16Gi"
+            cpu: "3"
+        volumeMounts:
+          - name: smb
+            mountPath: "/data"
+            readOnly: false
+        command: ["sh", "run.sh", "openstack", "0", "100000"]
+      volumes:
+        - name: smb
+          persistentVolumeClaim:
+            claimName: pvc-smb
+      restartPolicy: Never
+      dnsConfig:
+        nameservers:
+          - 133.5.19.52
+        searches:
+          - artemis.ait.kyushu-u.ac.jp
+        options:
+          - name: ndots
+            value: "2"
+          - name: edns0

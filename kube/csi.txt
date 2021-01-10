@@ -1,0 +1,5 @@
+[install]
+curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/v0.5.0/deploy/install-driver.sh | bash -s v0.5.0 --
+
+[uninstall]
+curl -skSL https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/v0.5.0/deploy/uninstall-driver.sh | bash -s --

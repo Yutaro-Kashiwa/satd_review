@@ -1,0 +1,57 @@
+{
+  "/COMMIT_MSG": {
+    "status": "A",
+    "lines_inserted": 13,
+    "size_delta": 515,
+    "size": 515
+  },
+  "src/quick/scenegraph/qsgcontext.cpp": {
+    "lines_inserted": 33,
+    "size_delta": 1894,
+    "size": 23638
+  },
+  "src/quick/scenegraph/qsgcontext_p.h": {
+    "lines_inserted": 5,
+    "size_delta": 285,
+    "size": 6294
+  },
+  "src/quick/scenegraph/qsgrenderloop.cpp": {
+    "lines_inserted": 33,
+    "lines_deleted": 10,
+    "size_delta": 788,
+    "size": 14162
+  },
+  "src/quick/scenegraph/qsgrenderloop_p.h": {
+    "lines_inserted": 3,
+    "size_delta": 84,
+    "size": 3395
+  },
+  "src/quick/scenegraph/qsgthreadedrenderloop.cpp": {
+    "lines_inserted": 2,
+    "lines_deleted": 11,
+    "size_delta": -725,
+    "size": 37781
+  },
+  "src/quick/scenegraph/qsgwindowsrenderloop.cpp": {
+    "lines_inserted": 2,
+    "lines_deleted": 27,
+    "size_delta": -1889,
+    "size": 14972
+  },
+  "src/quickwidgets/qquickwidget.cpp": {
+    "lines_inserted": 41,
+    "lines_deleted": 1,
+    "size_delta": 1541,
+    "size": 28035
+  },
+  "src/quickwidgets/qquickwidget.h": {
+    "lines_inserted": 7,
+    "size_delta": 274,
+    "size": 4606
+  },
+  "src/quickwidgets/qquickwidget_p.h": {
+    "lines_inserted": 1,
+    "size_delta": 80,
+    "size": 3805
+  }
+}

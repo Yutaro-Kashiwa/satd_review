@@ -1,6 +1,5 @@
 import re
 
-
 lang_c = ["c", "h", "cc", "cpp", "cxx", "cp", "hpp", "hxx", "qml", "m", "mm", "java", "js", "frag", "vert",
           "g"]  # c言語タイプ
 lang_script = ["py", "sh", "pro", "pl"]  # pythonタイプ
@@ -8,6 +7,8 @@ lang_script = ["py", "sh", "pro", "pl"]  # pythonタイプ
 # shは一応<<任意の文字列〜任意の文字列で可能だが今は無視
 lang_vb = ["vb", "vbs"]  # visualbasicタイプ(シングルクォート
 lang_query = ["xq"]  # xqueryタイプ (:  :)
+
+
 def get_is_multi_comment_out(lang):
     start = None
     end = None
@@ -49,11 +50,12 @@ def check_javadoc(line, flag_in_javadoc):
             should_continue = True
     return flag_in_javadoc, should_continue
 
-#コメントアウトだけ取り出す
+
+# コメントアウトだけ取り出す
 def append_info(info, line_no, comment):
     if len(info) > 0:
         info['end_line'] = line_no
-        info['comment'] = info['comment'] + ' ' + comment
+        info['comment'] = info['comment'] + '<KAIGYO>' + comment
     else:
         info['start_line'] = line_no
         info['end_line'] = line_no
@@ -72,30 +74,35 @@ def extract_commentout(lines, is_diffs, file_type):
     for line_no, line in enumerate(lines, 0):
         if not is_diffs[line_no]:
             continue
+        if line.endswith("=="):  # skip base64
+            continue
         line = line.replace("://", "")  # To handle http/https/ftp...
+        line = re.sub('".+"', '""', line)  # to
 
         # Check JAVA DOC
         if file_type == 'java':
             flag_in_javadoc, should_continue = check_javadoc(line, flag_in_javadoc)
             if should_continue:
                 continue
-
-        flag_in_multi_comment_out, comment = is_start_multi_comment_out(line)
-        if flag_in_multi_comment_out:  # multi comment lines get started
-            info['start_line'] = line_no
-            merged_comment = line
-
-        if flag_in_multi_comment_out:
-            if is_end_multi_comment_out(line):
-                merged_comment += ' ' + line
+        if not flag_in_multi_comment_out:
+            flag_in_multi_comment_out, comment = is_start_multi_comment_out(line)
+            if flag_in_multi_comment_out:  # multi comment lines get started
+                info['start_line'] = line_no
+                merged_comment = line
+                continue
+        else:
+            is_closed, comment = is_end_multi_comment_out(line)
+            if is_closed:
+                merged_comment += '<KAIGYO>' + comment
                 info['end_line'] = line_no
-                info['comment'] = line
+                info['comment'] = merged_comment
                 commentout_info.append(info)
                 info = {}
                 flag_in_multi_comment_out = False
+                continue
             else:
-                merged_comment += ' ' + line
-            continue
+                merged_comment += '<KAIGYO>' + line
+                continue
 
         # TODO: pythonの場合，#を使いながら複数行コメントをする
         flag_in_single_comment_out, comment = is_single_comment_out(line)
@@ -106,7 +113,7 @@ def extract_commentout(lines, is_diffs, file_type):
             info = {}
         else:
             pass
-    if len(info) > 0:#if one line change in "a" or "b"
+    if len(info) > 0:  # if one line change in "a" or "b"
         commentout_info.append(info)
     assert not flag_in_multi_comment_out
     assert not flag_in_javadoc
@@ -115,7 +122,7 @@ def extract_commentout(lines, is_diffs, file_type):
 
 ##########################################
 def _extract_comment_after(symbol, line):
-    pattern = rf".*?({symbol}.*)"#?で最左一致にしている
+    pattern = rf".*?({symbol}.*)"  # ?で最左一致にしている
     comment = re.match(pattern, line)
     if comment:
         return True, comment.group(1)
@@ -125,18 +132,21 @@ def _extract_comment_after(symbol, line):
 
 def is_single_comment_compiler(line):
     return _extract_comment_after("//", line)
+
+
 def is_single_comment_script(line):
     return _extract_comment_after("#", line)
 
+
 def is_single_comment_query(line):
-    return False, None # xquery does not have single comment out
+    return False, None  # xquery does not have single comment out
+
 
 def is_single_comment_vb(line):
     return _extract_comment_after("\\'", line)
 
+
 ###########################################
-
-
 
 
 def is_start_multi_comments_compiler(line):
@@ -154,6 +164,7 @@ def is_start_multi_comments_query(line):
 def is_start_multi_comments_vb(line):
     return False, None
 
+
 #############################################
 def _extract_comment_before(symbol, line):
     pattern = rf"(.*{symbol}).*"
@@ -163,8 +174,9 @@ def _extract_comment_before(symbol, line):
     else:
         return False, None
 
+
 def is_end_multi_comments_compiler(line):
-    return _extract_comment_before("\\*/", line)
+    return _extract_comment_before("\\*\\/", line)
 
 
 def is_end_multi_comments_script(line):
@@ -178,6 +190,7 @@ def is_end_multi_comments_query(line):
 def is_end_multi_comments_vb(line):
     return False, None
 
+
 #####################################################
 def is_start_javadoc(line):
     return _extract_comment_after("/\\*\\*", line)
@@ -185,4 +198,3 @@ def is_start_javadoc(line):
 
 def is_end_javadoc(line):
     return _extract_comment_before("\\*\\*/", line)
-

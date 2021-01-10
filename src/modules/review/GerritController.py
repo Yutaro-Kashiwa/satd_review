@@ -8,7 +8,7 @@ from pygerrit2 import GerritRestAPI, HTTPBasicAuth, Anonymous
 from exe import ENV
 from modules.others.configure import read_json
 from modules.others.my_exceptions import DetailFileNotFoundError, QueryFileNotFoundError, DiffFileNotFoundError, \
-    DiffLineFileNotFoundError
+    DiffLineFileNotFoundError, NoContentsException
 from modules.others.url import url_encode
 from modules.review.GerritDao import GerritDao
 
@@ -130,7 +130,7 @@ import json
 class GerritControllerViaLocal(GerritController):
     def __init__(self, project, max_no=None):
         super(GerritControllerViaLocal, self).__init__(project, max_no)
-        self.data_dir = ENV['data_dir']
+        self.data_dir = ENV['data_dir']+'/'
 
     def _get_run_info(self):
         return QueryViaLocal(self.project, self.current_review_id, self.data_dir)
@@ -149,17 +149,25 @@ class QueryViaLocal(QueryBase):
 
     def _get_query(self):  # raise FileNotFoundException
         # ファイル検索
+        filename = self.path + self.query_file
         try:
             if self.name == "qt":
-                return read_json(self.path + self.query_file)
+                return read_json(filename)
             else:#openstack
-                return read_json(self.path + self.query_file)[0]
+                return read_json(filename)[0]
         except FileNotFoundError:
-            print("FileNotFoundError")
             raise QueryFileNotFoundError
-        except KeyError:
+        except KeyError as e:
             print("Check this method. You need to check if the file start by list or dict")
-            raise
+            raise e
+        except JSONDecodeError:
+            with open(filename, 'r') as f:
+                data = f.read()
+                if data.startswith("Not found"):
+                    raise NoContentsException
+                else:
+                    print("Anonymous Error")
+                    raise
         except Exception as e:
             print("Anonymous Error")
             print(e.__class__)

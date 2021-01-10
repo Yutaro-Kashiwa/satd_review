@@ -16,3 +16,5 @@ class DiffLineFileNotFoundError(FileNotFoundError):
 class NotTargetSubProjectException(Exception):
     pass
 
+class NoContentsException(Exception):
+    pass

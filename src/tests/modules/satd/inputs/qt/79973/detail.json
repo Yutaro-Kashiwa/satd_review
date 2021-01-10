@@ -1,0 +1,2488 @@
+{
+  "id": "qt%2Fqtdeclarative~stable~I18cd4d7e0f6ee1011c29375218dc6a044b0d2cf2",
+  "project": "qt/qtdeclarative",
+  "branch": "stable",
+  "hashtags": [],
+  "change_id": "I18cd4d7e0f6ee1011c29375218dc6a044b0d2cf2",
+  "subject": "Consolidate context creation failure handling in Quick.",
+  "status": "MERGED",
+  "created": "2014-03-05 11:41:35.000000000",
+  "updated": "2014-03-13 14:20:14.000000000",
+  "insertions": 122,
+  "deletions": 49,
+  "total_comment_count": 7,
+  "unresolved_comment_count": 0,
+  "has_review_started": true,
+  "_number": 79973,
+  "owner": {
+    "_account_id": 1000014,
+    "name": "Friedemann Kleint",
+    "email": "Friedemann.Kleint@qt.io",
+    "username": "kleint",
+    "avatars": [
+      {
+        "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+        "height": 26
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+        "height": 32
+      },
+      {
+        "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+        "height": 100
+      }
+    ]
+  },
+  "labels": {
+    "Code-Review": {
+      "approved": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "all": [
+        {
+          "value": 0,
+          "date": "2014-03-13 12:31:38.000000000",
+          "permitted_voting_range": {
+            "min": 0,
+            "max": 2
+          },
+          "_account_id": 1000014,
+          "name": "Friedemann Kleint",
+          "email": "Friedemann.Kleint@qt.io",
+          "username": "kleint",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "_account_id": 1000105,
+          "name": "Gunnar Sletta",
+          "email": "gunnar@crimson.no",
+          "username": "sletta",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "_account_id": 1000036,
+          "name": "Paul Olav Tvete",
+          "email": "paul.tvete@qt.io",
+          "username": "tvete",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "_account_id": 1000049,
+          "name": "Qt Sanity Bot",
+          "email": "qt_sanitybot@qt-project.org",
+          "username": "qt_sanity_bot",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 2,
+          "date": "2014-03-13 12:39:54.000000000",
+          "permitted_voting_range": {
+            "min": 2,
+            "max": 2
+          },
+          "_account_id": 1002160,
+          "name": "Laszlo Agocs",
+          "email": "laszlo.agocs@qt.io",
+          "username": "lagocs",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        }
+      ],
+      "values": {
+        "-2": "This shall not be merged",
+        "-1": "I would prefer this is not merged as is",
+        " 0": "No score",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0
+    },
+    "Sanity-Review": {
+      "approved": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "all": [
+        {
+          "value": 0,
+          "date": "2014-03-13 12:31:38.000000000",
+          "permitted_voting_range": {
+            "min": 0,
+            "max": 1
+          },
+          "_account_id": 1000014,
+          "name": "Friedemann Kleint",
+          "email": "Friedemann.Kleint@qt.io",
+          "username": "kleint",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "_account_id": 1000105,
+          "name": "Gunnar Sletta",
+          "email": "gunnar@crimson.no",
+          "username": "sletta",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "_account_id": 1000036,
+          "name": "Paul Olav Tvete",
+          "email": "paul.tvete@qt.io",
+          "username": "tvete",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 1,
+          "date": "2014-03-13 12:30:56.000000000",
+          "permitted_voting_range": {
+            "min": 1,
+            "max": 1
+          },
+          "_account_id": 1000049,
+          "name": "Qt Sanity Bot",
+          "email": "qt_sanitybot@qt-project.org",
+          "username": "qt_sanity_bot",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        },
+        {
+          "value": 0,
+          "date": "2014-03-13 12:39:54.000000000",
+          "permitted_voting_range": {
+            "min": 0,
+            "max": 1
+          },
+          "_account_id": 1002160,
+          "name": "Laszlo Agocs",
+          "email": "laszlo.agocs@qt.io",
+          "username": "lagocs",
+          "avatars": [
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+              "height": 26
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+              "height": 32
+            },
+            {
+              "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+              "height": 100
+            }
+          ]
+        }
+      ],
+      "values": {
+        "-2": "Major sanity problems found",
+        "-1": "Sanity problems found",
+        " 0": "No sanity review",
+        "+1": "Sanity review passed"
+      },
+      "default_value": 0
+    }
+  },
+  "removable_reviewers": [],
+  "reviewers": {
+    "REVIEWER": [
+      {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      {
+        "_account_id": 1000036,
+        "name": "Paul Olav Tvete",
+        "email": "paul.tvete@qt.io",
+        "username": "tvete",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      }
+    ]
+  },
+  "pending_reviewers": {},
+  "reviewer_updates": [
+    {
+      "updated": "2014-03-05 12:29:38.000000000",
+      "updated_by": {
+        "_account_id": 1000036,
+        "name": "Paul Olav Tvete",
+        "email": "paul.tvete@qt.io",
+        "username": "tvete",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "reviewer": {
+        "_account_id": 1000036,
+        "name": "Paul Olav Tvete",
+        "email": "paul.tvete@qt.io",
+        "username": "tvete",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/316df743dadb1acabc348af90c71a168.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "state": "REVIEWER"
+    },
+    {
+      "updated": "2014-03-10 08:46:53.000000000",
+      "updated_by": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "reviewer": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "state": "REVIEWER"
+    },
+    {
+      "updated": "2014-03-13 12:30:56.000000000",
+      "updated_by": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "reviewer": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "state": "REVIEWER"
+    },
+    {
+      "updated": "2014-03-13 12:39:54.000000000",
+      "updated_by": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "reviewer": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "state": "REVIEWER"
+    }
+  ],
+  "messages": [
+    {
+      "id": "88eff4e7e0cc2f04c2f00bb776f329a5b999983e",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 11:41:39.000000000",
+      "message": "Patch Set 1: Major sanity problems found\n\n- Apparently pushing a Work In Progress",
+      "_revision_number": 1
+    },
+    {
+      "id": "a5f99a2411ae48b1f9e23958dfd9c0bde2fc2989",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 11:44:12.000000000",
+      "message": "Patch Set 1:\n\nWill add handling to the example to test this...",
+      "_revision_number": 1
+    },
+    {
+      "id": "4c0731ed735801256dd8dfc582a955f2e8836d64",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 12:24:31.000000000",
+      "message": "Patch Set 1:\n\nSee https://codereview.qt-project.org/#change,79990 for the example making use of this.",
+      "_revision_number": 1
+    },
+    {
+      "id": "4ca1307f4d0fb2538e86fcb47fd3a758a72524a1",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 12:28:36.000000000",
+      "message": "Uploaded patch set 2.",
+      "_revision_number": 2
+    },
+    {
+      "id": "ae55736106850f79b0d9281c386d8bc747db48d5",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 12:28:44.000000000",
+      "message": "Patch Set 2: Sanity review passed\n\n",
+      "_revision_number": 2
+    },
+    {
+      "id": "bb5758751b073016a3befcf0b313758047251ca9",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:19:37.000000000",
+      "message": "Patch Set 2: Looks good to me, but someone else must approve\n\n(1 inline comment)\n\n",
+      "_revision_number": 2
+    },
+    {
+      "id": "d1630a087e433e59eb6e10bc2bbdcc36246a9417",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:22:01.000000000",
+      "message": "Patch Set 2: (1 inline comment)\n\n",
+      "_revision_number": 2
+    },
+    {
+      "id": "e4c2a94a48d3d095a3f7d3ab462369ac407f2de3",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:23:02.000000000",
+      "message": "Uploaded patch set 3.",
+      "_revision_number": 3
+    },
+    {
+      "id": "b91db12957ad4c7e117468a0612a6adea6db0eb3",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:23:24.000000000",
+      "message": "Patch Set 3: Sanity review passed\n\n",
+      "_revision_number": 3
+    },
+    {
+      "id": "2661dfcbcae3ec61e4f391566486032cacc09f6a",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:35:41.000000000",
+      "message": "Patch Set 3: Looks good to me, but someone else must approve\n\n",
+      "_revision_number": 3
+    },
+    {
+      "id": "3b50e09bcff8313e422035c8e7f88450938e8843",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:37:24.000000000",
+      "message": "Patch Set 3:\n\nOne thing to note here, QQuickWidget will then qFatal() the application on context creation failure unless the signal is connected as does QQuickWindow.",
+      "_revision_number": 3
+    },
+    {
+      "id": "bfb948a72854ac3cdffce31d6935c1392107dcc8",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 14:38:00.000000000",
+      "message": "Patch Set 3:\n\nSee also https://codereview.qt-project.org/#change,79963  for Creator",
+      "_revision_number": 3
+    },
+    {
+      "id": "a3458ac98bbc33e16871c8bda4c59eb87ce44393",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 15:02:54.000000000",
+      "message": "Patch Set 3:\n\nOops, docs are missing..",
+      "_revision_number": 3
+    },
+    {
+      "id": "e6ed69dd895018b082f92c4c57501c566924ad71",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 15:08:53.000000000",
+      "message": "Uploaded patch set 4.",
+      "_revision_number": 4
+    },
+    {
+      "id": "a6a4439e40b6b04ab6cb11462386230a851bc501",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 15:08:57.000000000",
+      "message": "Patch Set 4: Sanity review passed\n\n",
+      "_revision_number": 4
+    },
+    {
+      "id": "ac3854b0e6cb65e8f6d6ad57f267f0fa3b59a37a",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 15:11:54.000000000",
+      "message": "Patch Set 4: Looks good to me, but someone else must approve\n\n",
+      "_revision_number": 4
+    },
+    {
+      "id": "2c2f40931ec877a6d6a5356f57ba4727c172637e",
+      "author": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 15:43:53.000000000",
+      "message": "Patch Set 4: I would prefer this is not merged as is\n\n(2 inline comments)\n\n",
+      "_revision_number": 4
+    },
+    {
+      "id": "f4fe9f566eebe7b04f6e7d02bbc891b449873c9e",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-05 18:15:00.000000000",
+      "message": "Patch Set 4: (2 inline comments)\n\n",
+      "_revision_number": 4
+    },
+    {
+      "id": "03d47d3463a5944ee5fc4342745de2565f1af8ec",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:30:02.000000000",
+      "message": "Uploaded patch set 5.",
+      "_revision_number": 5
+    },
+    {
+      "id": "cd7c9dfa7bfae30ba26abc2378b6952f58fcb349",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:30:06.000000000",
+      "message": "Patch Set 5: Sanity review passed\n\n",
+      "_revision_number": 5
+    },
+    {
+      "id": "7fb58d2ce23220f3e368bcf1c731775842d5a76f",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:37:06.000000000",
+      "message": "Patch Set 5:\n\nMoved message helper function to qquickwindowprivate.cpp as Gunnar suggested. \n\nWhat about the enumerations in QQuickWidget? \n\nIt has Status (mirroring QQmlComponent/QQuickView::Status) and this change adds SceneGraphError (mirroring QuickWindow::SceneGraphError). Since it also includes QuickWindow, we could use QuickWindow::SceneGraphError, but it might be bit awkward when writing connections (see https://codereview.qt-project.org/#change,79990 ).\n\nThe doc bot is silent here due to Task-number: QTBUG-37272",
+      "_revision_number": 5
+    },
+    {
+      "id": "909d44816e08dcb15e0be38fcec95211be83ca94",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:37:47.000000000",
+      "message": "Uploaded patch set 6.",
+      "_revision_number": 6
+    },
+    {
+      "id": "12b2b20727260227b1b72cc14c6c55878bdbf5e7",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:37:51.000000000",
+      "message": "Patch Set 6: Sanity review passed\n\n",
+      "_revision_number": 6
+    },
+    {
+      "id": "44afbcc9832dfd424f72185dbfbd5045b4d50f06",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 08:37:56.000000000",
+      "message": "Patch Set 4: (1 inline comment)\n\n",
+      "_revision_number": 4
+    },
+    {
+      "id": "152187b5e7b9a4a7d83bfb3fbc2dadd9476336ad",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 11:32:49.000000000",
+      "message": "Patch Set 6:\n\nAny opinions on the enumeration question? - or shall I split the quickwidgets part off to a separate change?",
+      "_revision_number": 6
+    },
+    {
+      "id": "7c98a16147155d494e47ac79c83eae5cbbefc9d1",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 13:51:09.000000000",
+      "message": "Patch Set 6:\n\nUsing QQuickWindow\u0027s enum is fine, I think, no need to introduce our own.",
+      "_revision_number": 6
+    },
+    {
+      "id": "eaa243cf1f9f736fefccbad4a4d87882f3bdc956",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 14:33:31.000000000",
+      "message": "Uploaded patch set 7.",
+      "_revision_number": 7
+    },
+    {
+      "id": "6e2d0418e650b392d15cee4534ba96093e8718cb",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 14:33:40.000000000",
+      "message": "Patch Set 7: Sanity review passed\n\n",
+      "_revision_number": 7
+    },
+    {
+      "id": "2975b934915fb96f1215204f3632dffa816e0693",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-06 14:35:57.000000000",
+      "message": "Patch Set 7:\n\nI also dropped the connection of QQuickWidget\u0027s internal QQuickWindow\u0027s scenegraphError()  signal to  QQuickWidget\u0027s signal since that will never trigger, apparently?",
+      "_revision_number": 7
+    },
+    {
+      "id": "a4cd8d98a5a82bd4643e68e95e21b25a5078e81b",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-07 12:03:15.000000000",
+      "message": "Patch Set 7: Looks good to me, but someone else must approve\n\n",
+      "_revision_number": 7
+    },
+    {
+      "id": "2bd1e05ffc5a158a8f2b72161b572fb11188ea08",
+      "author": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000105,
+        "name": "Gunnar Sletta",
+        "email": "gunnar@crimson.no",
+        "username": "sletta",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/7b50cc86a53cb5a558a5ce117ed219f3.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-10 08:46:53.000000000",
+      "message": "Patch Set 7: Looks good to me, approved\n\n",
+      "_revision_number": 7
+    },
+    {
+      "id": "3c54e7ca62accc8cc2fec24b33a4ab8f22c6c4ae",
+      "date": "2014-03-10 08:50:24.000000000",
+      "message": "Your change could not be merged due to a path conflict.\n\nPlease rebase the change locally against the destination branch and upload a new patch set.\n\nIf the conflict is with another change, wait until it gets integrated before rebasing.\n\nConflicting files:\n- src/quickwidgets/qquickwidget_p.h\n- src/quickwidgets/qquickwidget.cpp",
+      "_revision_number": 7
+    },
+    {
+      "id": "44e915a81b8dfeea83bf0588350ac3d920aab0f8",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-10 09:57:19.000000000",
+      "message": "Uploaded patch set 8.",
+      "_revision_number": 8
+    },
+    {
+      "id": "762265dc3a7d608ac18642da7c004f06d3ecda23",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-10 09:57:23.000000000",
+      "message": "Patch Set 8: Sanity review passed\n\n",
+      "_revision_number": 8
+    },
+    {
+      "id": "d61ccc006075aacc5e6b9a5615062a28d5b51a0b",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-10 10:56:52.000000000",
+      "message": "Patch Set 8: Looks good to me, but someone else must approve\n\n",
+      "_revision_number": 8
+    },
+    {
+      "id": "ed52985c8fd16d8e2429c633f871d1c258c9d43b",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:30:43.000000000",
+      "message": "Patch Set 8:\n\nNeeds another rebase...",
+      "_revision_number": 8
+    },
+    {
+      "id": "4edc4b377355585bd31f81264238721407bc03cf",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:30:51.000000000",
+      "message": "Uploaded patch set 9.",
+      "_revision_number": 9
+    },
+    {
+      "id": "a99cdfeb314115ab5851f35e128aa764fd7c47cb",
+      "author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000049,
+        "name": "Qt Sanity Bot",
+        "email": "qt_sanitybot@qt-project.org",
+        "username": "qt_sanity_bot",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/b55ac32a3dbb9fba1dbd21a0ef1a3d79.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:30:56.000000000",
+      "message": "Patch Set 9: Sanity review passed\n\n",
+      "_revision_number": 9
+    },
+    {
+      "id": "9b130db2435756f5d7a12a071ace660b13176fd5",
+      "author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1000014,
+        "name": "Friedemann Kleint",
+        "email": "Friedemann.Kleint@qt.io",
+        "username": "kleint",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/288482edc40178325050d8fddfba5f3d.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:31:38.000000000",
+      "message": "Patch Set 9:\n\nSo, what do you think, while the CI is utterly bored, shall we try to get this in?",
+      "_revision_number": 9
+    },
+    {
+      "id": "19c720b3bd36d5957c08518066051361af2af56a",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:39:54.000000000",
+      "message": "Patch Set 9: Looks good to me, approved\n\n",
+      "_revision_number": 9
+    },
+    {
+      "id": "7d52404fe802521d338f6cba5c2ef33832dcd0a7",
+      "author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "real_author": {
+        "_account_id": 1002160,
+        "name": "Laszlo Agocs",
+        "email": "laszlo.agocs@qt.io",
+        "username": "lagocs",
+        "avatars": [
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d26",
+            "height": 26
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d32",
+            "height": 32
+          },
+          {
+            "url": "https://www.gravatar.com/avatar/aa6d98e42ab7805423696f7647dac5aa.jpg?d\u003didenticon\u0026r\u003dpg\u0026s\u003d100",
+            "height": 100
+          }
+        ]
+      },
+      "date": "2014-03-13 12:39:54.000000000",
+      "message": "Change has been successfully cherry-picked to the staging branch as b8afc009afcca84a3fd3d5617dfe96c729c531aa.",
+      "_revision_number": 9
+    },
+    {
+      "id": "ee6192615f8a0f53f1bb5c48b2d66a8d23ef3931",
+      "author": {
+        "_account_id": 1000060,
+        "name": "Qt Continuous Integration System",
+        "username": "qtintegration",
+        "avatars": []
+      },
+      "real_author": {
+        "_account_id": 1000060,
+        "name": "Qt Continuous Integration System",
+        "username": "qtintegration",
+        "avatars": []
+      },
+      "date": "2014-03-13 14:20:14.000000000",
+      "message": "Patch Set 9:\n\nQtDeclarative_stable_Integration #1892: SUCCESS\n\n  Tested changes (refs/builds/stable_1394716180):\n    http://codereview.qt-project.org/80723 [PS4] - Fix property caches out of sync with grouped properties that have a VME meta object\n    http://codereview.qt-project.org/79990 [PS4] - Add some error handling to the QQuickWidget example.\n    http://codereview.qt-project.org/79973 [PS9] - Consolidate context creation failure handling in Quick.\n",
+      "_revision_number": 9
+    }
+  ],
+  "requirements": []
+}
