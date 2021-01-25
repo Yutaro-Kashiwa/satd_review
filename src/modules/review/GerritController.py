@@ -8,7 +8,7 @@ from pygerrit2 import GerritRestAPI, HTTPBasicAuth, Anonymous
 from exe import ENV
 from modules.others.configure import read_json
 from modules.others.my_exceptions import DetailFileNotFoundError, QueryFileNotFoundError, DiffFileNotFoundError, \
-    DiffLineFileNotFoundError, NoContentsException
+    DiffLineFileNotFoundError, NoContentsException, InternalServerError
 from modules.others.url import url_encode
 from modules.review.GerritDao import GerritDao
 
@@ -54,6 +54,9 @@ class QueryBase:
 
     def get_diff_files(self, revision_no):
         return self._get_diff_files(revision_no)
+
+    def get_last_diff_no(self):
+        return self._get_last_diff_no()
 
     def get_diffs(self, revision_no, filename):
         return self._get_diffs(revision_no, filename)
@@ -165,6 +168,8 @@ class QueryViaLocal(QueryBase):
                 data = f.read()
                 if data.startswith("Not found"):
                     raise NoContentsException
+                elif data.startswith("Internal server error"):
+                    raise InternalServerError
                 else:
                     print("Anonymous Error")
                     raise
@@ -191,6 +196,21 @@ class QueryViaLocal(QueryBase):
             return js
         except FileNotFoundError:
             raise DiffFileNotFoundError
+        except json.decoder.JSONDecodeError as e:
+            raise e
+
+    def _get_last_diff_no(self):
+        no = 0
+        try:
+            while True:
+                no += 1
+                try:
+                    self._get_diff_files(no)
+                except json.decoder.JSONDecodeError:# if no contents of diff file
+                    pass
+        except DiffFileNotFoundError:
+            return no-1
+
 
     def _get_diffs(self, patch_no, filename):
         # ファイル検索
@@ -201,6 +221,7 @@ class QueryViaLocal(QueryBase):
             return js
         except FileNotFoundError:
             raise DiffLineFileNotFoundError
+
 
     def _dir_calc(self, proj, i):
         i = int(i)

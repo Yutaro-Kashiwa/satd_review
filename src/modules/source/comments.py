@@ -39,6 +39,19 @@ def get_is_single_comment_out(lang):
         start = is_single_comment_query
     return start
 
+def remove_exception(lang):
+    exception = except_common
+    if lang in lang_c:  # 言語に応じて異なるメソッドでdiffであるコメントを抽出
+        exception = get_c_exeption
+    return exception
+
+def get_c_exeption(line):
+    line = line.replace("://", "")  # To handle http/https/ftp
+    line = line.replace("//*", "//")  # To handle http/https/ftp
+    return except_common(line)
+
+def except_common(line):
+    return re.sub('".+?"', '""', line)
 
 def check_javadoc(line, flag_in_javadoc):
     should_continue = False
@@ -49,6 +62,7 @@ def check_javadoc(line, flag_in_javadoc):
             flag_in_javadoc = False
             should_continue = True
     return flag_in_javadoc, should_continue
+
 
 
 # コメントアウトだけ取り出す
@@ -65,60 +79,88 @@ def append_info(info, line_no, comment):
 
 def extract_commentout(lines, is_diffs, file_type):
     is_single_comment_out = get_is_single_comment_out(file_type)
+    if is_single_comment_out is None:
+        return []
     is_start_multi_comment_out, is_end_multi_comment_out = get_is_multi_comment_out(file_type)
+    remove = remove_exception(file_type)
     commentout_info = []
     flag_in_multi_comment_out = False
     flag_in_javadoc = False
     merged_comment = ""
     info = {}
+    flg_diff = False
     for line_no, line in enumerate(lines, 0):
-        if not is_diffs[line_no]:
-            continue
         if line.endswith("=="):  # skip base64
             continue
-        line = line.replace("://", "")  # To handle http/https/ftp...
-        line = re.sub('".+"', '""', line)  # to
-
+        line = remove(line)
         # Check JAVA DOC
         if file_type == 'java':
             flag_in_javadoc, should_continue = check_javadoc(line, flag_in_javadoc)
             if should_continue:
                 continue
-        if not flag_in_multi_comment_out:
+        if not flag_in_multi_comment_out:# if the previous lines did not start comment out
+            # pythonの場合，#を使いながら複数行コメントをする
+            flag_in_single_comment_out, comment = is_single_comment_out(line)
+            if flag_in_single_comment_out:
+                info = append_info(info, line_no, comment)
+                if is_diffs[line_no]:
+                    flg_diff = True
+                continue
+            elif len(info) > 0:
+                if flg_diff:
+                    commentout_info.append(info)
+                    flg_diff = False
+                info = {}
+            else:
+                pass
+
             flag_in_multi_comment_out, comment = is_start_multi_comment_out(line)
-            if flag_in_multi_comment_out:  # multi comment lines get started
+            if flag_in_multi_comment_out:  # if this line starts comment out
                 info['start_line'] = line_no
                 merged_comment = line
+                if is_diffs[line_no]:
+                    flg_diff = True
+
+                double_flg, double_comment = is_end_multi_comment_out(comment)
+                if double_flg:#one line multiple comment out pattern
+                    info['end_line'] = line_no
+                    info['comment'] = double_comment
+                    if flg_diff:
+                        commentout_info.append(info)
+                        flg_diff = False
+                    info = {}
+                    flag_in_multi_comment_out = False
                 continue
-        else:
+            else:
+                pass
+        else:# if the previous lines have alreadly started comment out
             is_closed, comment = is_end_multi_comment_out(line)
-            if is_closed:
+            if is_closed:# if this line ends comment out
                 merged_comment += '<KAIGYO>' + comment
                 info['end_line'] = line_no
                 info['comment'] = merged_comment
-                commentout_info.append(info)
+                if is_diffs[line_no]:#this line has changes?
+                    flg_diff = True
+                if flg_diff:# does this line or the previous line has changes?
+                    commentout_info.append(info)
+                    flg_diff = False
                 info = {}
                 flag_in_multi_comment_out = False
+                merged_comment = ""
                 continue
-            else:
+            else:# comment out does not finish
                 merged_comment += '<KAIGYO>' + line
+                if is_diffs[line_no]:#this line has changes?
+                    flg_diff = True
                 continue
 
-        # TODO: pythonの場合，#を使いながら複数行コメントをする
-        flag_in_single_comment_out, comment = is_single_comment_out(line)
-        if flag_in_single_comment_out:
-            info = append_info(info, line_no, comment)
-        elif len(info) > 0:
-            commentout_info.append(info)
-            info = {}
-        else:
-            pass
-    if len(info) > 0:  # if one line change in "a" or "b"
-        commentout_info.append(info)
-    assert not flag_in_multi_comment_out
-    assert not flag_in_javadoc
-    return commentout_info
 
+    if len(info) > 0:  # if one line change in "a" or "b"
+        if flg_diff:
+            commentout_info.append(info)
+    # assert not flag_in_multi_comment_out
+    # assert not flag_in_javadoc
+    return commentout_info
 
 ##########################################
 def _extract_comment_after(symbol, line):

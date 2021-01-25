@@ -15,7 +15,7 @@
       <excludeFolder url="file://$MODULE_DIR$/memo" />
       <excludeFolder url="file://$MODULE_DIR$/venv3" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (satd_review)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (nishikawa_td_src)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

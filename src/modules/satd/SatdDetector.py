@@ -1,6 +1,7 @@
 import subprocess
 
 import re
+import time
 
 import pexpect
 
@@ -11,12 +12,12 @@ from modules.source.comments import extract_commentout
 class SatdDetector:
     def __init__(self):
         self.jarfile = ENV['home_dir'] / "src/satd_detector.jar"
-        self.MAX_BUFFER = 1024
+        self.MAX_BUFFER = 1023
 
     def init(self):
-        self.analyzer = pexpect.spawn(f'java -Xms512m -Xmx8g -jar {self.jarfile} test', encoding='utf-8', timeout=30,
+        self.analyzer = pexpect.spawn(f'java -Xms512m -Xmx4g -jar {self.jarfile} test', encoding='utf-8',
                                       maxread=1024 * 2, searchwindowsize=1024 * 4)
-        self.analyzer.timeout = 1000
+        self.analyzer.timeout = None
         self.analyzer.expect('>')
 
     def close(self):
@@ -68,7 +69,8 @@ class SatdDetector:
     def _satd_detect(self, script_lines):
         self.init()
         for line in script_lines:
-            if line['comment'] == "/exit":
+            line['include_SATD'] = False
+            if not ('comment' in line) or line['comment'] == "/exit":
                 continue
             comment = line['comment']
 
@@ -78,19 +80,19 @@ class SatdDetector:
                 con = ""
                 for s in split_comments:
                     s = s + ' '
-                    if len(con + s) >= self.MAX_BUFFER:
+                    if (len(con)+len(s)) >= self.MAX_BUFFER:
                         lines.append(con)
                         con = ""
                     con = con + s
-                lines.append(re.sub('[ 　]+', ' ', con + ' ' + s))
+                lines.append(re.sub('\s+', ' ', con))
             else:
-                lines.append(re.sub('[ 　]+', ' ', comment.replace("<KAIGYO>", " ")))
-            line['include_SATD'] = False
+                lines.append(re.sub('\s+', ' ', comment.replace("<KAIGYO>", " ")))
             for ll in lines:
                 is_satd = self._detect(ll)
                 if is_satd:
                     line['include_SATD'] = True
                     break
+            line['comment'] = line['comment'].replace("<KAIGYO>", " ")
         self.close()
         return script_lines
 

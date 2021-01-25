@@ -15,6 +15,8 @@ ADD src /app/src
 ADD conf /app/conf
 ADD requirements.txt /app/
 ADD run.sh /app/
+ADD rerun.sh /app/
 RUN chmod +x run.sh
+RUN chmod +x rerun.sh
 
 RUN ["pip", "install", "-r", "requirements.txt"]

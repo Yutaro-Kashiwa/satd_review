@@ -1,6 +1,7 @@
 from exe import PROJECT
 from modules.others.configure import get_languages
-from modules.others.my_exceptions import KnowUnknownJsonError, NotTargetSubProjectException
+from modules.others.my_exceptions import KnowUnknownJsonError, NotTargetSubProjectException, SelfReviewFoundException
+from modules.review.GerritController import QueryBase
 from modules.review.utils import remove_bots_message, extract_inline_comments_number
 
 def extract(x):
@@ -10,16 +11,19 @@ def extract(x):
         return 0
 
 class Review:
-    def __init__(self, query, review_id, revision_info):
+    def __init__(self, query: QueryBase, review_id, revision_info):
         self.query = query
+        if type(revision_info)==list:
+            revision_info = revision_info[0]
         tmp = revision_info['project'].split("/")
-        assert len(tmp) == 2
+        if not len(tmp) == 2:
+            raise NotTargetSubProjectException
         self.project = tmp[0]
         self.sub_project = tmp[1]
         if not self.is_target_sub_project(query):
             raise NotTargetSubProjectException
         review_info = query.get_review_data()
-        self.total_revisions = max(map(lambda x: extract(x), review_info["messages"]))  # その変更のパッチ総数．
+        self.total_revisions = query.get_last_diff_no()  # その変更のパッチ総数．
         self.review_id = review_id
 
         self.target_languages = get_languages(self.project, self.sub_project)
@@ -31,10 +35,16 @@ class Review:
         self.comments = remove_bots_message(review_info["messages"], query.bots)
         self.total_inline_comments = extract_inline_comments_number(self.comments)
         self.total_comments = len(self.comments)  # self.total_outline_comments + self.total_inline_comments
-        if "REVIEWER" in review_info["reviewers"]:
-            self.total_reviewers = len(review_info["reviewers"]["REVIEWER"])
-        else:
-            self.total_reviewers = 0
+        self.owner = review_info["owner"]["_account_id"]
+        self.reviewers = set()
+        for c in self.comments:
+            reviewer = c['author']['_account_id']
+            if not self.owner == reviewer:
+                self.reviewers.add(reviewer)
+        self.total_reviewers = len(self.reviewers)
+        if self.total_reviewers == 0:
+            raise SelfReviewFoundException
+
 
     def get_info(self):
         out = dict()

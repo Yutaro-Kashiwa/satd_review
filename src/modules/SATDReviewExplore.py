@@ -22,8 +22,8 @@ class SATDReviewExplore():
 
     def detect(self):
         error = {"not target sub-project": [], "program error": [], "know unknown problem": [], "anonymous file not found": [],
-                 "query file not found": [], "detail file not found": [], "diff file not found": [], "diff line file not found": [],
-                 "SATD detector is too busy": [], "no contents": []}
+                 "query file not found": [], "detail file not found": [], "diff file not found": [],
+                 "SATD detector is too busy": [], "internal server error in review system": [], "no contents": [], "self-review": [], "Please Rerun":[]}
         output = []
         tpe = ThreadPoolExecutor(max_workers=self.workers)
         while self.gc.next():

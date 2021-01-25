@@ -11,13 +11,13 @@ def revisedChecker4rq3(x):
             return True
     return False
 
-def rq3(df):
+def rq3(project, df):
     print("**どのタイミングでADD（RQ3）**********************")
-    df = filter4rq23(df, 'is_added_satd', "rq3.csv")
+    df = filter4rq23(df, 'is_added_satd', f"{project}/{project}_rq3.csv")
     df['is_revised'] = df.apply(lambda x: revisedChecker4rq3(x), axis=1)
     all = len(df)
     revised = len(df[df.is_revised])
-    output4rq23(all, revised, "statistics_add_timing.csv")
+    output4rq23(all, revised, f"{project}/{project}_statistics_add_timing.csv")
 
 
 if __name__ == '__main__':

@@ -18,3 +18,9 @@ class NotTargetSubProjectException(Exception):
 
 class NoContentsException(Exception):
     pass
+
+class InternalServerError(Exception):
+    pass
+
+class SelfReviewFoundException(Exception):
+    pass
