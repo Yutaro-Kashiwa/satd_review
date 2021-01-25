@@ -6,22 +6,23 @@ from exe._2_calculate.all import read_pkl
 from modules.utils import calc_rate
 
 
-def accRateTest(project, a, b, c, d):
+def accept_rate_ss(project, a, b, c, d):
     # 検定：比率の差の検定（＝カイ二乗検定）
     crosstab = pandas.DataFrame([[a, b], [c, d]])
     x2, p, dof, expected = scipy.stats.chi2_contingency(crosstab)
     print("p-value = " + str(p))
-    # 効果量：SQRT(カイ二乗値/N)
-    phi = math.sqrt(x2 / (a+b+c+d))
-    print("Effect size = " + str(phi))
+
     accepted_header = ['--Acceptance Rate-----------------', '', '']
     accepted_p = ['p-value', '', p]
-    accepted_eff = ['effect_size', '', phi]
-    out_df = pandas.DataFrame([accepted_header, accepted_p, accepted_eff])
-    out_df.to_csv(f"{project}/{project}_acc_statistics.csv", mode='a', header=False)
+    # 効果量：SQRT(カイ二乗値/N) # NOTE: effect size should not be calculated for rates
+    # phi = math.sqrt(x2 / (a+b+c+d))
+    # print("Effect size = " + str(phi))
+    # accepted_eff = ['effect_size', '', phi]
+    out_df = pandas.DataFrame([accepted_header, accepted_p])#accepted_eff
+    out_df.to_csv(f"{project}/{project}_acc_statistics.csv", mode='w', header=False)
 
 
-def revisionTest(project, a, b):
+def revision_ss(project, a, b):
     # 検定：U検定
     U, p = scipy.stats.mannwhitneyu(a, b)
     print("p-value = " + str(p))
@@ -36,7 +37,7 @@ def revisionTest(project, a, b):
     revision_p = ['p-value', '', p]
     revision_eff = ['effect_size', '', r]
     out_df = pandas.DataFrame([revision_header, revision_p, revision_eff])
-    out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='a', header=False)
+    out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='w', header=False)
 
 
 def rq1(project, df):
@@ -61,16 +62,11 @@ def rq1(project, df):
     print("--Acceptance Rate-----------------")
     a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), \
                  len(df_without_accepted), len(df_without) - len(df_without_accepted)
-    accRateTest(project, a, b, c, d)
+    accept_rate_ss(project, a, b, c, d)
 
     print("--Revision-----------------")
-    revisionTest(project, df_with.revisions, df_without.revisions)
+    revision_ss(project, df_with.revisions, df_without.revisions)
 
 
 
 
-
-project = "qt"
-if __name__ == '__main__':
-    df = read_pkl()
-    rq1(project, df)

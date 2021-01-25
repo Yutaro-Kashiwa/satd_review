@@ -60,10 +60,7 @@ def print_error(project, errors, suffix):
         json.dump(errors, f)
     pass
 
-results_dir = "/Volumes/home/kashiwa/satd/results"
-project = "openstack"
-project = "qt"
-if __name__ == '__main__':
+def run(results_dir, project):
     dirname = f"{results_dir}/{project}/**-**/"
     rerun_dirname = f"{results_dir}/{project}/rerun/**/"
     all_dirname = f"{results_dir}/{project}/**/"
@@ -92,3 +89,11 @@ if __name__ == '__main__':
     for key in errors:
         errors[key] = list(errors[key])
     print_error(project, errors, suffix = "")
+
+
+if __name__ == '__main__':
+    results_dir = "/Volumes/home/kashiwa/satd/results"
+    run(results_dir, "openstack")
+    run(results_dir, "qt")
+
+
