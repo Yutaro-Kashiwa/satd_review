@@ -38,6 +38,63 @@ def revisionTest(a, b):
     out_df = pandas.DataFrame([revision_header, revision_p, revision_eff])
     out_df.to_csv("statistics.csv", mode='a', header=False)
 
+#回帰係数とかなんとか．まだコピペしただけの状態.
+def rq1checker(path, mode):  # modeはSATDがある方については1，ない方については2を記述する
+    with open(path, 'r') as f:
+        r = csv.reader(f)
+        reader = [row for row in r]  # ２次元リスト化
+
+    if mode == 1:
+        merged_list = []  # ひとまずはSATDを持つもの限定でとる
+        rejected_list = []
+    merged_count = 0  # MERGEDになってるレビューの数
+    patch_sum = 0  # パッチ数を全部たす
+    p_array = []  # 中央値用の配列
+    # reader.pop(0) #はじめの行を除外する
+
+    for row in reader[1:]:  # [2]=status, #[3]=patch_num
+        patch_sum += int(row[3])
+        p_array.append(int(row[3]))
+        if row[2] == "MERGED":
+            merged_count += 1
+            if mode == 1:
+                merged_list.append(int(row[1]))
+        elif mode == 1:
+            rejected_list.append(int(row[1]))
+
+    length = len(reader) - 1
+    if length == 0:
+        patch_ave = 0
+        patch_med = 0
+        not_rate = 0
+    else:
+        patch_ave = float(patch_sum) / float(length)
+        patch_med = float(numpy.median(p_array))
+        not_rate = float(length - merged_count) / float(length) * 100
+
+    print
+    " size  MERGED  notMERGED  not_rate  patch_sum  patch_ave  patch_med"
+    print
+    "%5d  %6d  %9d    %3.2f%%  %9d       %3.2f       %3.2f" % (
+    length, merged_count, length - merged_count, not_rate, patch_sum, patch_ave, patch_med)
+
+    if mode == 1:
+        mode_str = "SATD_have"
+    elif mode == 2:
+        mode_str = "not_have"
+    write_list = [proj_name, sub_name, mode_str, length, merged_count, length - merged_count, str(not_rate) + "%",
+                  patch_sum, patch_ave, patch_med]
+    write_list = map(str, write_list)  # まとめて文字列にする
+    with open(out_path, 'a') as f:
+        out_str = ",".join(write_list)
+        f.write(out_str + "\n")
+
+    if mode == 1:
+        output_json = {"merged_list": merged_list, "rejected_list": rejected_list}
+        out_path2 = './data/rejected_list_' + sub_name2 + '.json'
+        with open(out_path2, 'w') as e:
+            json.dump(output_json, e)
+
 
 def rq1(df):
     print("**RQ1********************")
