@@ -19,7 +19,7 @@ def run(project, kubernetes):
 
 if __name__ == '__main__':
     run("qt", kubernetes=True)
-    run("openstack", kubernetes=True)
+    # run("openstack", kubernetes=True)
 
 
 

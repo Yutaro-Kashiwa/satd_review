@@ -2,11 +2,7 @@ import pandas
 import scipy.stats
 import math
 
-from sklearn import preprocessing
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression, LinearRegression
 
-from exe._2_calculate.all import read_pkl
 from modules.utils import calc_rate
 
 
@@ -44,43 +40,6 @@ def revision_ss(project, a, b):
     out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='w', header=False)
 
 
-def get_df(project, df, prediction_column):
-    diff = pandas.read_csv(f"inputs/{project}_diff_size.csv")
-    diff['id'] = diff['id'].astype(int)
-    df['id'] = df['id'].astype(int)
-    print("----", project)
-    s = set(df['id'].values)
-    s = s - set(diff['id'].values)
-    print("----")
-
-    df_ = pandas.merge(df, diff, on="id")
-    # transform 0 or 1
-    df_['is_add_or_delete_satd'] = (df_['is_added_satd'] + df_['is_deleted_satd']) >= 1
-    df_['is_add_or_delete_satd'] = df_['is_add_or_delete_satd'].astype(int)
-    df_[prediction_column] = df_[prediction_column].astype(int)
-    return df_
-
-
-import statsmodels.api as sm
-from sklearn.preprocessing import StandardScaler
-
-
-def regression(project, df: pandas.DataFrame, prediction_column):
-    line_type = 'line'
-    line_type = 'log_line'
-    df_ = get_df(project, df, prediction_column)
-    df_[line_type] = scipy.stats.zscore(df_[line_type])
-    df_ = df_.loc[:, ['is_added_satd', 'is_deleted_satd', line_type, prediction_column]]
-
-    column_num = len(df_.columns)
-    x = df_.iloc[:, 0:(column_num - 1)]
-    y = df_.iloc[:, (column_num - 1)]
-
-    model = RandomForestClassifier(max_depth=10, random_state=0)
-
-    model.fit(x, y)
-    print(model.feature_importances_)
-    pass
 
 
 def rq1(project, df):
@@ -112,5 +71,3 @@ def rq1(project, df):
     print("--Revision-----------------")
     revision_ss(project, df_with.revisions, df_without.revisions)
 
-    regression(project, df, 'is_accepted')
-    regression(project, df, 'revisions')
