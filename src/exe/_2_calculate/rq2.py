@@ -13,8 +13,9 @@ def filter_by_column(df, col, filename):
 
 def is_revised(x, col):
     dic = x[col]
-    for v in dic.values():
-        if v >= 2:
+    print(dic)
+    for revision in dic.values():
+        if revision >= 2:
             return True
     return False
 
@@ -31,7 +32,7 @@ def write(all, revised, filename):
 def rq2(project, df):
     print("**DELETE timing(RQ2)**********************")
     df = filter_by_column(df, 'is_deleted_satd', f"{project}/{project}_rq2.csv")
-    df['is_revised'] = df.apply(lambda x: is_revised(x), axis=1)
+    df['is_revised'] = df.apply(lambda x: is_revised(x, 'deleted_satd'), axis=1)
     all = len(df)
     revised = len(df[df.is_revised])
     write(all, revised, f"{project}/{project}_statistics_delete_timing.csv")

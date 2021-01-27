@@ -2,6 +2,9 @@ import pandas
 import scipy.stats
 import math
 
+from sklearn import preprocessing
+from sklearn.linear_model import LogisticRegression, LinearRegression
+
 from exe._2_calculate.all import read_pkl
 from modules.utils import calc_rate
 
@@ -18,7 +21,7 @@ def accept_rate_ss(project, a, b, c, d):
     # phi = math.sqrt(x2 / (a+b+c+d))
     # print("Effect size = " + str(phi))
     # accepted_eff = ['effect_size', '', phi]
-    out_df = pandas.DataFrame([accepted_header, accepted_p])#accepted_eff
+    out_df = pandas.DataFrame([accepted_header, accepted_p])  # accepted_eff
     out_df.to_csv(f"{project}/{project}_acc_statistics.csv", mode='w', header=False)
 
 
@@ -29,7 +32,7 @@ def revision_ss(project, a, b):
     # 効果量：Z-score / SQRT(N)
     # mannshitneyuではZ-scoreを出してくれないので手動で計算するしかないらしい
     E = (len(a) * len(b)) / 2  # 期待値
-    V = math.sqrt(len(a) * len(b) * (len(a) + len(b) + 1) / 12) # 分散
+    V = math.sqrt(len(a) * len(b) * (len(a) + len(b) + 1) / 12)  # 分散
     Z = (U - E) / V  # Z値
     r = math.sqrt(Z ** 2 / (Z ** 2 + len(a) + len(b) - 1))  # r値
     print("Effect size = " + str(r))
@@ -39,62 +42,55 @@ def revision_ss(project, a, b):
     out_df = pandas.DataFrame([revision_header, revision_p, revision_eff])
     out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='w', header=False)
 
-#回帰係数とかなんとか．まだコピペしただけの状態.
-def rq1checker(path, mode):  # modeはSATDがある方については1，ない方については2を記述する
-    with open(path, 'r') as f:
-        r = csv.reader(f)
-        reader = [row for row in r]  # ２次元リスト化
 
-    if mode == 1:
-        merged_list = []  # ひとまずはSATDを持つもの限定でとる
-        rejected_list = []
-    merged_count = 0  # MERGEDになってるレビューの数
-    patch_sum = 0  # パッチ数を全部たす
-    p_array = []  # 中央値用の配列
-    # reader.pop(0) #はじめの行を除外する
+def get_df(project, df, prediction_column):
+    diff = pandas.read_csv(f"inputs/{project}_diff_size.csv")
+    diff['id'] = diff['id'].astype(int)
+    df['id'] = df['id'].astype(int)
+    print("----", project)
+    s = set(df['id'].values)
+    s = s - set(diff['id'].values)
+    print("----")
 
-    for row in reader[1:]:  # [2]=status, #[3]=patch_num
-        patch_sum += int(row[3])
-        p_array.append(int(row[3]))
-        if row[2] == "MERGED":
-            merged_count += 1
-            if mode == 1:
-                merged_list.append(int(row[1]))
-        elif mode == 1:
-            rejected_list.append(int(row[1]))
+    df_ = pandas.merge(df, diff, on="id")
+    # transform 0 or 1
+    df_['is_add_or_delete_satd'] = (df_['is_added_satd'] + df_['is_deleted_satd']) >= 1
+    df_['is_add_or_delete_satd'] = df_['is_add_or_delete_satd'].astype(int)
+    df_[prediction_column] = df_[prediction_column].astype(int)
+    return df_
 
-    length = len(reader) - 1
-    if length == 0:
-        patch_ave = 0
-        patch_med = 0
-        not_rate = 0
+
+import statsmodels.api as sm
+from sklearn.preprocessing import StandardScaler
+
+
+def regression(project, df: pandas.DataFrame, prediction_column):
+    line_type = 'line'
+    line_type = 'log_line'
+    df_ = get_df(project, df, prediction_column)
+    df_[line_type] = scipy.stats.zscore(df_[line_type])
+    df_ = df_.loc[:, ['is_add_or_delete_satd', line_type, prediction_column]]
+
+    column_num = len(df_.columns)
+    x = df_.iloc[:, 0:(column_num - 1)]
+    y = df_.iloc[:, (column_num - 1)]
+
+    if prediction_column == 'is_accepted':
+        model = LogisticRegression()
+    elif prediction_column == 'revisions':
+        model = LinearRegression()
     else:
-        patch_ave = float(patch_sum) / float(length)
-        patch_med = float(numpy.median(p_array))
-        not_rate = float(length - merged_count) / float(length) * 100
+        raise
 
-    print
-    " size  MERGED  notMERGED  not_rate  patch_sum  patch_ave  patch_med"
-    print
-    "%5d  %6d  %9d    %3.2f%%  %9d       %3.2f       %3.2f" % (
-    length, merged_count, length - merged_count, not_rate, patch_sum, patch_ave, patch_med)
-
-    if mode == 1:
-        mode_str = "SATD_have"
-    elif mode == 2:
-        mode_str = "not_have"
-    write_list = [proj_name, sub_name, mode_str, length, merged_count, length - merged_count, str(not_rate) + "%",
-                  patch_sum, patch_ave, patch_med]
-    write_list = map(str, write_list)  # まとめて文字列にする
-    with open(out_path, 'a') as f:
-        out_str = ",".join(write_list)
-        f.write(out_str + "\n")
-
-    if mode == 1:
-        output_json = {"merged_list": merged_list, "rejected_list": rejected_list}
-        out_path2 = './data/rejected_list_' + sub_name2 + '.json'
-        with open(out_path2, 'w') as e:
-            json.dump(output_json, e)
+    model.fit(x, y)
+    print(model.intercept_)
+    print(model.coef_)
+    print(model.predict([[1, 0]]))
+    print(model.predict([[0, 1]]))
+    print(model.predict([[0, -1]]))
+    print(model.predict([[0, 0]]))
+    print(model.predict([[1, 20]]))
+    pass
 
 
 def rq1(project, df):
@@ -113,7 +109,9 @@ def rq1(project, df):
     mean_revisions = ['mean_revisions', df_with['revisions'].mean(), df_without['revisions'].mean()]
     median_revisions = ['median_revisions', df_with['revisions'].median(), df_without['revisions'].median()]
     max_revisions = ['max_revisions', df_with['revisions'].max(), df_without['revisions'].max()]
-    out_df = pandas.DataFrame([num, accepted_num, accepted_rate, min_revisions, mean_revisions, median_revisions, max_revisions], columns=header)
+    out_df = pandas.DataFrame(
+        [num, accepted_num, accepted_rate, min_revisions, mean_revisions, median_revisions, max_revisions],
+        columns=header)
     out_df.to_csv(f"{project}/{project}_statistics.csv")
 
     print("--Acceptance Rate-----------------")
@@ -124,6 +122,5 @@ def rq1(project, df):
     print("--Revision-----------------")
     revision_ss(project, df_with.revisions, df_without.revisions)
 
-
-
-
+    regression(project, df, 'is_accepted')
+    regression(project, df, 'revisions')

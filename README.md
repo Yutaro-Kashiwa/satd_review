@@ -2,7 +2,7 @@
 
 
 ## Procedure to run this program
-1. Download datasets (http://)
+1. Download review data (https://drive.google.com/file/d/1luFisKnlhKOQMatpeNk2niHPB6nvZq47/view?usp=sharing)
 2. Write the path of the downloaded dataset into data_dir of setting ini 
 3. run shell script (run.sh)<br>
    sh run.sh [PROJECT_NAME] [START_REVIEW_NO] [STOP_REVIEW_NO] [THREAD_NUM]<br>
