@@ -3,6 +3,7 @@ import scipy.stats
 import math
 
 from sklearn import preprocessing
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, LinearRegression
 
 from exe._2_calculate.all import read_pkl
@@ -69,27 +70,16 @@ def regression(project, df: pandas.DataFrame, prediction_column):
     line_type = 'log_line'
     df_ = get_df(project, df, prediction_column)
     df_[line_type] = scipy.stats.zscore(df_[line_type])
-    df_ = df_.loc[:, ['is_add_or_delete_satd', line_type, prediction_column]]
+    df_ = df_.loc[:, ['is_added_satd', 'is_deleted_satd', line_type, prediction_column]]
 
     column_num = len(df_.columns)
     x = df_.iloc[:, 0:(column_num - 1)]
     y = df_.iloc[:, (column_num - 1)]
 
-    if prediction_column == 'is_accepted':
-        model = LogisticRegression()
-    elif prediction_column == 'revisions':
-        model = LinearRegression()
-    else:
-        raise
+    model = RandomForestClassifier(max_depth=10, random_state=0)
 
     model.fit(x, y)
-    print(model.intercept_)
-    print(model.coef_)
-    print(model.predict([[1, 0]]))
-    print(model.predict([[0, 1]]))
-    print(model.predict([[0, -1]]))
-    print(model.predict([[0, 0]]))
-    print(model.predict([[1, 20]]))
+    print(model.feature_importances_)
     pass
 
 
