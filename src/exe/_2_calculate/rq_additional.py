@@ -87,7 +87,6 @@ def correlation(project, df: pandas.DataFrame):
 
 #input->df, output->df*3
 def spliter(df):
-    df.to_csv('test.csv') # only for debug
     #1.lineでソート
     df = df.sort_values('line')
     #2.3分割
