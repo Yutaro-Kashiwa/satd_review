@@ -1,5 +1,6 @@
 import pandas
 import scipy.stats
+import numpy as np
 
 from sklearn import preprocessing
 from sklearn.ensemble import RandomForestClassifier
@@ -84,14 +85,24 @@ def correlation(project, df: pandas.DataFrame):
     a = stats.pointbiserialr(df_.loc[:, line_type], df_.loc[:, 'is_add_or_delete_satd'])
     print(a)
 
+#input->df, output->df*3
+def spliter(df):
+    df.to_csv('test.csv') # only for debug
+    #1.lineでソート
+    df = df.sort_values('line')
+    #2.3分割
+    df1, df2, df3 = np.array_split(df, 3)
+    return df1, df2, df3
 
 def run(project, kubernetes):
     df = read_pkl(project, kubernetes)
-    regression(project, df, 'is_accepted')
-    regression(project, df, 'revisions')
-    decision_tree(project, df, 'is_accepted')
-    decision_tree(project, df, 'revisions')
-    correlation(project, df)
+    df1, df2, df3 = spliter(df)
+    for dfn in (df1, df2, df3):
+        regression(project, dfn, 'is_accepted')
+        regression(project, dfn, 'revisions')
+        decision_tree(project, dfn, 'is_accepted')
+        decision_tree(project, dfn, 'revisions')
+        correlation(project, dfn)
 
 if __name__ == '__main__':
     run("qt", kubernetes=True)
