@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression, LinearRegression
 
 from exe._2_calculate.all import read_pkl
 
-def get_df(project, df, prediction_column):
+def diff_size_merger(project, df):
     diff = pandas.read_csv(f"inputs/{project}_diff_size.csv")
     diff['id'] = diff['id'].astype(int)
     df['id'] = df['id'].astype(int)
@@ -18,6 +18,10 @@ def get_df(project, df, prediction_column):
     print("----")
 
     df_ = pandas.merge(df, diff, on="id")
+    return df_
+
+
+def get_df(df_, prediction_column):
     # transform 0 or 1
     df_['is_add_or_delete_satd'] = (df_['is_added_satd'] + df_['is_deleted_satd']) >= 1
     df_['is_add_or_delete_satd'] = df_['is_add_or_delete_satd'].astype(int)
@@ -30,10 +34,10 @@ import statsmodels.api as sm
 from sklearn.preprocessing import StandardScaler
 
 
-def decision_tree(project, df: pandas.DataFrame, prediction_column):
+def decision_tree(df: pandas.DataFrame, prediction_column):
     line_type = 'line'
     # line_type = 'log_line'
-    df_ = get_df(project, df, prediction_column)
+    df_ = get_df(df, prediction_column)
     df_[line_type] = scipy.stats.zscore(df_[line_type])
     df_ = df_.loc[:, ['is_added_satd', 'is_deleted_satd', line_type, prediction_column]]
 
@@ -47,10 +51,10 @@ def decision_tree(project, df: pandas.DataFrame, prediction_column):
     print(model.feature_importances_)
     pass
 
-def regression(project, df: pandas.DataFrame, prediction_column):
+def regression(df: pandas.DataFrame, prediction_column):
     line_type = 'line'
     line_type = 'log_line'
-    df_ = get_df(project, df, prediction_column)
+    df_ = get_df(df, prediction_column)
     df_[line_type] = scipy.stats.zscore(df_[line_type])
     df_ = df_.loc[:, ['is_add_or_delete_satd', line_type, prediction_column]]
 
@@ -75,10 +79,10 @@ def regression(project, df: pandas.DataFrame, prediction_column):
     print(model.predict([[1, 20]]))
 
 from scipy import stats
-def correlation(project, df: pandas.DataFrame):
+def correlation(df: pandas.DataFrame):
     # line_type = 'line'
     line_type = 'log_line'
-    df_ = get_df(project, df, None)
+    df_ = get_df(df, None)
     df_[line_type] = scipy.stats.zscore(df_[line_type])
     df_ = df_.loc[:, ['is_add_or_delete_satd', line_type]]
     print(df_.corr())
@@ -87,7 +91,7 @@ def correlation(project, df: pandas.DataFrame):
 
 #input->df, output->df*3
 def spliter(df):
-    #1.lineでソート
+    #1.lineでソート(昇順)
     df = df.sort_values('line')
     #2.3分割
     df1, df2, df3 = np.array_split(df, 3)
@@ -95,13 +99,18 @@ def spliter(df):
 
 def run(project, kubernetes):
     df = read_pkl(project, kubernetes)
-    df1, df2, df3 = spliter(df)
+    #get_dfを前半と後半に分けましょう
+    df_ = diff_size_merger(project, df)
+    df1, df2, df3 = spliter(df_)
+    count = 1
     for dfn in (df1, df2, df3):
-        regression(project, dfn, 'is_accepted')
-        regression(project, dfn, 'revisions')
-        decision_tree(project, dfn, 'is_accepted')
-        decision_tree(project, dfn, 'revisions')
-        correlation(project, dfn)
+        print(f"----------------df{count}----------------")
+        regression(dfn, 'is_accepted')
+        regression(dfn, 'revisions')
+        decision_tree(dfn, 'is_accepted')
+        decision_tree(dfn, 'revisions')
+        correlation(dfn)
+        count += 1
 
 if __name__ == '__main__':
     run("qt", kubernetes=True)
