@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression, LinearRegression
 
 from exe._2_calculate.all import read_pkl
+from exe._2_calculate.rq1 import rq1
+
 
 def diff_size_merger(project, df):
     diff = pandas.read_csv(f"inputs/{project}_diff_size.csv")
@@ -89,29 +91,83 @@ def correlation(df: pandas.DataFrame):
     a = stats.pointbiserialr(df_.loc[:, line_type], df_.loc[:, 'is_add_or_delete_satd'])
     print(a)
 
-#input->df, output->df*3
-def spliter(df):
-    #1.lineでソート(昇順)
-    df = df.sort_values('line')
-    #2.3分割
-    df1, df2, df3 = np.array_split(df, 3)
-    return df1, df2, df3
+
+#intervalの範囲でパッチサイズをまとめる．上限はlimitの値．
+def splitter(df, interval=200, limit=1000):
+    #1.lineでソート(昇順/ascending=Falseで降順)
+    df = df.sort_values('line', ascending=True)
+    #2. dfを分ける
+    min = 1
+    max = interval
+    while max <= limit:
+        # min <= line <= max のものを抽出
+        dfn = df[(df['line'] >= min) & (df['line'] <= max)]
+        # 必要なら：ランダムに抽出
+        # dfn = dfn.sample(n=480, random_state=0)
+        yield dfn
+        min += interval
+        max += interval
+
+
+import matplotlib.pyplot as plt
+
+# ヒストグラム．累積直線付き．だいたいコピペ
+def graph_maker_hist(project, df_input, logging=True):
+    df = df_input['line']
+    bins = np.linspace(0, 2001, 1001)
+    freq = df.value_counts(bins=bins, sort=False)
+    # 第2軸用値の算出（この辺コピペ）
+    class_value = (bins[:-1] + bins[1:]) / 2  # 階級値
+    rel_freq = freq / df.count()  # 相対度数
+    cum_freq = freq.cumsum()  # 累積度数
+    rel_cum_freq = rel_freq.cumsum()  # 相対累積度数
+    dist = pandas.DataFrame(
+        {
+            "階級値": class_value,
+            "度数": freq,
+            "相対度数": rel_freq,
+            "累積度数": cum_freq,
+            "相対累積度数": rel_cum_freq,
+        },
+        index=freq.index
+    )
+    fig, ax1 = plt.subplots()
+    ax1.set_xlabel("line")
+    df.plot(bins=bins, logx=logging, kind='hist')
+    ax2 = ax1.twinx()
+    ax2.plot(np.arange(len(dist)), dist["相対累積度数"], "-", color="r")
+    ax2.set_ylabel("累積相対度数")
+    plt.savefig(f"{project}/{project}_line_hist.png")
+
+#lineが一定値以上の変更を抽出してcsvで出す
+def extract_big_changes(project, df, threshold=10000):
+    df = df.sort_values('line', ascending=True)
+    df = df[df['line'] >= threshold]
+    # df = df.drop(['is_added_satd', 'is_deleted_satd', 'is_accepted'], axis=1) # 軽くしたいので情報を一部削る
+    df = df.drop(['results', 'added_satd', 'deleted_satd'], axis=1)
+    df.to_csv(f"{project}/{project}_size_over{threshold}.csv", index=False)
+
+
+#plot.scatterもやってみる？
 
 def run(project, kubernetes):
     df = read_pkl(project, kubernetes)
-    #get_dfを前半と後半に分けましょう
     df_ = diff_size_merger(project, df)
-    df1, df2, df3 = spliter(df_)
+    # extract_big_changes(project, df_, 5000)
+    # graph_maker_hist(project, df_)
     count = 1
-    for dfn in (df1, df2, df3):
+    for dfn in splitter(df_, interval=200, limit=1000):
         print(f"----------------df{count}----------------")
-        regression(dfn, 'is_accepted')
-        regression(dfn, 'revisions')
-        decision_tree(dfn, 'is_accepted')
-        decision_tree(dfn, 'revisions')
-        correlation(dfn)
+        get_df(dfn, None)
+        print(f"line_min:{dfn['line'].min()}, line_max:{dfn['line'].max()}")
+        rq1(project, dfn, count)
+        # regression(dfn, 'is_accepted')
+        # regression(dfn, 'revisions')
+        # decision_tree(dfn, 'is_accepted')
+        # decision_tree(dfn, 'revisions')
+        # correlation(dfn)
         count += 1
 
 if __name__ == '__main__':
-    run("qt", kubernetes=True)
-    # run("openstack", kubernetes=True)
+    # run("qt", kubernetes=True)
+    run("openstack", kubernetes=True)
