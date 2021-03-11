@@ -1,6 +1,8 @@
 import pandas
+import numpy as np
 import scipy.stats
 import math
+import os
 
 
 from modules.utils import calc_rate
@@ -42,7 +44,7 @@ def revision_ss(project, a, b):
 
 
 
-def rq1(project, df):
+def rq1(project, df, additional_num=None):
     print("**RQ1********************")
     df_with = df[(df.is_added_satd == True) | (df.is_deleted_satd == True)]
     df_without = df[((df.is_added_satd == True) | (df.is_deleted_satd == True)) == False]
@@ -61,7 +63,7 @@ def rq1(project, df):
     out_df = pandas.DataFrame(
         [num, accepted_num, accepted_rate, min_revisions, mean_revisions, median_revisions, max_revisions],
         columns=header)
-    out_df.to_csv(f"{project}/{project}_statistics.csv")
+    out_df.to_csv(f"{project}/{project}_statistics{additional_num}.csv")
 
     print("--Acceptance Rate-----------------")
     a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), \
