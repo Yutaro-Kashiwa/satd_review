@@ -2,7 +2,6 @@ import pandas
 import scipy.stats
 import math
 
-
 from modules.utils import calc_rate
 
 
@@ -40,8 +39,6 @@ def revision_ss(project, a, b):
     out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='w', header=False)
 
 
-
-
 def rq1(project, df):
     print("**RQ1********************")
     df_with = df[(df.is_added_satd == True) | (df.is_deleted_satd == True)]
@@ -70,4 +67,3 @@ def rq1(project, df):
 
     print("--Revision-----------------")
     revision_ss(project, df_with.revisions, df_without.revisions)
-
