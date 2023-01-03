@@ -1,6 +1,10 @@
 
 import pandas as pd
 
+from exe._2_calculate import rq2, rq1
+from exe._2_calculate import discussion1
+
+
 def read_pkl(project, kube=False):
     if kube:
         return pd.read_pickle(f"../distribution_util/{project}/{project}_df.pkl")
@@ -8,18 +12,20 @@ def read_pkl(project, kube=False):
 
 
 def run(project, kubernetes):
-    from exe._2_calculate.rq1 import rq1
-    from exe._2_calculate.rq2 import rq2
-    from exe._2_calculate.rq3 import rq3
+    print(project)
     df = read_pkl(project, kubernetes)
-    rq1(project, df)
-    # rq2(project, df)
-    # rq3(project, df)
+    # rq1.run(project, df)
+    # rq1.run2(project, df)
+    rq2.run(project, df)
+    # discussion1.run(project, df, exclude_one_time_accepted=True)
+    # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    discussion1.run(project, df, exclude_one_time_accepted=False)
 
 
 if __name__ == '__main__':
     run("qt", kubernetes=True)
-    # run("openstack", kubernetes=True)
+    print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    run("openstack", kubernetes=True)
 
 
 

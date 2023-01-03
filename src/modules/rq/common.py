@@ -24,25 +24,29 @@ def _get_satd_comments(comments):
     return out
 
 
-def get_unique(a_satd_comments, a_satd, revision):
+def get_unique(a_satd_comments, satd_array, revision):
     for comment in a_satd_comments:
-        satd = comment['comment']
-        if not (satd in a_satd.keys()):
-            a_satd[satd] = int(revision['revision'])
-        else:
-            print("not unique", int(revision['revision']), satd)
-    return a_satd
+        c = comment['comment']
+        if not (c in satd_array.keys()): # when the satd appears for the first time
+            info = {'revision': int(revision['revision']),
+                    'filename': revision['filename'],
+                    'start_line': int(comment['start_line']),
+                    'end_line': int(comment['end_line']),
+                    'url': int(revision['url'])
+                    }
+            satd_array[c] = info
+    return satd_array
 
 
+# FIXME: If there are satd comments that have the same contents in a file
 def find_satd(d):
     exist_target_file = False
-    # FIXME: 同じSATDの内容が複数あった場合
     a_satd = {}
     b_satd = {}
     for revision in d.results:
         if len(revision['changed_files']) > 0:
             exist_target_file = True
-            for file in revision['changed_files']:# TODO: 違うファイルにまたがっていた場合
+            for file in revision['changed_files']:# TODO: when the satd was moved in another file
                 a_satd_comments = _get_satd_comments(file['a_comments'])
                 b_satd_comments = _get_satd_comments(file['b_comments'])
                 a_satd = get_unique(a_satd_comments, a_satd, revision)
@@ -73,7 +77,6 @@ def mark_satd(df: pd.DataFrame):
     arr_is_deleted_satd = []
     for _, d in df.iterrows():
         exist_target_file, a_satd, b_satd = find_satd(d)
-        # added_satd, deleted_satd = find(d)
         arr_exist_target_file.append(exist_target_file)
         arr_add_satd.append(b_satd)
         arr_is_added_satd.append(len(b_satd) > 0)
@@ -82,9 +85,9 @@ def mark_satd(df: pd.DataFrame):
         ab_satd = {}
         for a in a_satd.keys():
             if a in b_satd.keys():
-                if not b_satd[a] == a_satd[a]:# if not, Modify pattern?
+                if not b_satd[a]['revision'] == a_satd[a]['revision']:
                     ab_satd[a] = str(b_satd[a]) + '-' + str(a_satd[a])
-                else:#TODO: 修正されたとき(無理)
+                else:# TODO: when the satd is modified
                     pass
         arr_add_and_delete_satd.append(ab_satd)
     df['exist_target_file'] = arr_exist_target_file

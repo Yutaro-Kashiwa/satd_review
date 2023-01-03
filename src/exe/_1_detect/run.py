@@ -40,9 +40,12 @@ if __name__ == '__main__':
         stop = int(args[3])
         workers = int(args[4])
         df, error = run(project, start, stop, workers)
-    else:
-        df, error = run(PROJECT, 0, int(PROJECT['last_review_no']), workers=10)
-    file_dir = f"{ENV['out_dir']}/{project['name']}/{start}-{stop}"
+    else:#for debug
+        project = load_project("openstack")
+        start = 0
+        stop = 1000
+        df, error = run(PROJECT, 0, stop, workers=10)
+    file_dir = f"{ENV['out_dir']}/{PROJECT['name']}/{start}-{stop}"
     write(df, error, file_dir)
 
 

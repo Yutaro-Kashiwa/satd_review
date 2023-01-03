@@ -1,15 +1,26 @@
 import pandas
 import scipy.stats
 import math
+import seaborn as sns
+
+import matplotlib
+matplotlib.use('TkAgg')
+import matplotlib.pyplot as plt
 
 from modules.utils import calc_rate
 
+def is_in_revised(x, col):
+    dic = x[col]
+    for val in dic.values():
+        if val >= 2:
+            return True
+    return False
 
-def accept_rate_ss(project, a, b, c, d):
+def accept_rate_ss(project, a, b, c, d, other=""):
     # 検定：比率の差の検定（＝カイ二乗検定）
     crosstab = pandas.DataFrame([[a, b], [c, d]])
     x2, p, dof, expected = scipy.stats.chi2_contingency(crosstab)
-    print("p-value = " + str(p))
+    print(f"p-value({other}) = {p}")
 
     accepted_header = ['--Acceptance Rate-----------------', '', '']
     accepted_p = ['p-value', '', p]
@@ -18,7 +29,7 @@ def accept_rate_ss(project, a, b, c, d):
     # print("Effect size = " + str(phi))
     # accepted_eff = ['effect_size', '', phi]
     out_df = pandas.DataFrame([accepted_header, accepted_p])  # accepted_eff
-    out_df.to_csv(f"{project}/{project}_acc_statistics.csv", mode='w', header=False)
+    out_df.to_csv(f"{project}/{project}_acc{other}_statistics.csv", mode='w', header=False)
 
 
 def revision_ss(project, a, b):
@@ -38,11 +49,38 @@ def revision_ss(project, a, b):
     out_df = pandas.DataFrame([revision_header, revision_p, revision_eff])
     out_df.to_csv(f"{project}/{project}_rev_statistics.csv", mode='w', header=False)
 
+def run2(project, df):
+    d = df[(df['is_added_satd'] == True)].sort_values(by=["id"], ascending=True)
+    df['is_in_revised'] = df.apply(lambda x: is_in_revised(x, 'added_satd'), axis=1)
+    df_revised = df[df.is_in_revised == True]
+    df_first = df[df.is_in_revised == False]
+    df_revised_accepted = df_revised[df_revised.is_accepted]
+    df_first_accepted = df_first[df_first.is_accepted]
+    print("--Statistics-----------------")
+    header = ['', "Revised patches", "First patch"]
+    num = ['num', len(df_revised), (len(df_first))]
+    accepted_num = 'accepted_num', len(df_revised_accepted), (len(df_first_accepted))
+    accepted_rate = ['accepted_rate', calc_rate(len(df_revised_accepted), len(df_revised)),
+                     calc_rate(len(df_first_accepted), len(df_first))]
+    min_revisions = ['min_revisions', df_revised['revisions'].min(), df_first['revisions'].min()]
+    mean_revisions = ['mean_revisions', df_revised['revisions'].mean(), df_first['revisions'].mean()]
+    median_revisions = ['median_revisions', df_revised['revisions'].median(), df_first['revisions'].median()]
+    max_revisions = ['max_revisions', df_revised['revisions'].max(), df_first['revisions'].max()]
+    out_df = pandas.DataFrame(
+        [num, accepted_num, accepted_rate, min_revisions, mean_revisions, median_revisions, max_revisions],
+        columns=header)
+    out_df.to_csv(f"{project}/{project}_revises_statistics.csv")
+    print("--Acceptance Rate-----------------")
+    a, b, c, d = len(df_revised_accepted), len(df_revised) - len(df_revised_accepted), \
+                 len(df_first_accepted), len(df_first) - len(df_first_accepted)
+    accept_rate_ss(project, a, b, c, d, other="_revised")
 
-def rq1(project, df):
+
+def run(project, df):
+    plot_revisions(project, df)
     print("**RQ1********************")
-    df_with = df[(df.is_added_satd == True) | (df.is_deleted_satd == True)]
-    df_without = df[((df.is_added_satd == True) | (df.is_deleted_satd == True)) == False]
+    df_with = df[df.is_added_satd == True]#is_added_satd,is_deleted_satd
+    df_without = df[df.is_added_satd == False]
     df_with_accepted = df_with[df_with.is_accepted]
     df_without_accepted = df_without[df_without.is_accepted]
     print("--Statistics-----------------")
@@ -60,6 +98,7 @@ def rq1(project, df):
         columns=header)
     out_df.to_csv(f"{project}/{project}_statistics.csv")
 
+
     print("--Acceptance Rate-----------------")
     a, b, c, d = len(df_with_accepted), len(df_with) - len(df_with_accepted), \
                  len(df_without_accepted), len(df_without) - len(df_without_accepted)
@@ -67,3 +106,15 @@ def rq1(project, df):
 
     print("--Revision-----------------")
     revision_ss(project, df_with.revisions, df_without.revisions)
+
+
+
+
+def plot_revisions(project, df):
+    tp="revisions"
+    sns.boxplot(x=df["is_added_satd"], y=df[tp])
+    plt.yscale('log')
+    plt.ylim([0,1000])
+    plt.savefig(f'{project}_{tp}.png')
+    plt.close()
+
